@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference android:key="@string/video_br"
+        android:title="Video Bitrate" android:defaultValue="150000" />
+    <EditTextPreference android:key="@string/video_fr"
+        android:title="Video Framerate" android:defaultValue="30" />
+	<EditTextPreference android:key="@string/audio_br"
+		android:title="Audio Bitrate" android:defaultValue="8000" />
+    <EditTextPreference android:key="@string/audio_sr"
+        android:title="Audio Sampling Rate" android:defaultValue="8000" />
+    <EditTextPreference android:key="@string/audio_ch"
+        android:title="Audio Channels" android:defaultValue="1" />
+    <EditTextPreference android:key="@string/video_sz_w"
+        android:title="Width" android:defaultValue="640" />
+    <EditTextPreference android:key="@string/video_sz_h"
+        android:title="Height" android:defaultValue="480" />
+    <EditTextPreference android:key="@string/max_duration"
+        android:title="Max Duration" android:defaultValue="0" />
+    <EditTextPreference android:key="@string/max_filesize"
+        android:title="Max Filesize" android:defaultValue="0" />
+</PreferenceScreen>
