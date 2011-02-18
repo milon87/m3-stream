@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ПТС</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="video_rec">Запись видео</string>
+    <string name="home">Home</string>
+    <string name="next">Next</string>
+    <string name="video_view">Просмотр видео</string>
+</resources>
