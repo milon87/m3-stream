@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:id="@+id/video_view_main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#37c4ff" >
+    
+   
+    <LinearLayout
+		android:id="@+id/video_view"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:asg="http://schemas.android.com/apk/res/org.m3"
+	    android:orientation="vertical"
+	    android:layout_weight="0.7" 
+	    >
+	    
+	   <VideoView 
+	        android:id="@+id/surface_view" 
+	        android:layout_width="320px"
+	        android:layout_height="240px"
+	        android:layout_gravity="center"
+	    />
+	     <VideoView 
+	        android:id="@+id/surface_view2" 
+	        android:layout_width="320px"
+	        android:layout_height="240px"
+	        android:layout_gravity="center"
+	    />
+	   	
+	        	
+    	<TableLayout 
+        android:id="@+id/TableLayout01" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        android:layout_weight="0.3" 
+        >
+        <TableRow 
+            android:id="@+id/TableRow01" 
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:layout_gravity="center">
+            <EditText
+		        android:id="@+id/path"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"/>
+		    </TableRow>   
+		</TableLayout>
+		
+		<TableLayout 
+        android:id="@+id/TableLayout01" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        android:layout_weight="0.3" 
+        android:numColumns="3">     
+		<TableRow 
+            android:id="@+id/TableRow01" 
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:layout_gravity="center">
+
+		     	<Button 
+		     		android:id="@+id/play" 
+		     		android:layout_weight="1"
+		     		android:textSize="1sp"
+			        android:background="@drawable/button_shape"
+			        android:drawableTop="@drawable/play"/>
+				<Button 
+					android:id="@+id/pause" 
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" 
+					android:layout_weight="1"
+					android:textSize="1sp"
+			        android:background="@drawable/button_shape"
+			        android:drawableTop="@drawable/pause"/>
+				<Button 
+					android:id="@+id/reset" 
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" 
+					android:layout_weight="1"
+					android:textSize="1sp"
+			        android:background="@drawable/button_shape"
+			        android:drawableTop="@drawable/reset"/>
+				<Button 
+					android:id="@+id/stop" 
+					android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" 
+					android:layout_weight="1"
+					android:textSize="1sp"
+			        android:background="@drawable/button_shape"
+			        android:drawableTop="@drawable/stop"/>
+		     
+        </TableRow>
+        
+     </TableLayout>
+		
+			    
+	</LinearLayout>	    
+			
+
+		
+	<TableLayout 
+        android:id="@+id/TableLayout02" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_weight="0.3" 
+        android:gravity="bottom"
+		android:numColumns="3">
+        <TableRow 
+            android:id="@+id/TableRow02" 
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent">
+		     <Button
+		        android:id="@+id/btnHome" 
+		        android:layout_width="fill_parent" 
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1"
+		        android:textSize="1sp"
+		        android:background="@drawable/button_shape"
+		        android:drawableTop="@drawable/home" />
+		  
+		     
+        </TableRow>
+        
+     </TableLayout>
+
+	</LinearLayout>
