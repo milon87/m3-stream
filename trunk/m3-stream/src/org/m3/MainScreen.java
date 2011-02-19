@@ -17,6 +17,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.view.View;
 
 import android.hardware.Camera;
@@ -25,6 +26,7 @@ import android.hardware.Camera.Size;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 
 public class MainScreen extends Activity implements SurfaceHolder.Callback,
         View.OnClickListener, Camera.PictureCallback, Camera.PreviewCallback,
@@ -89,11 +91,13 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
 
         // кнопка имеет имя Button01
         shotBtn = (Button) findViewById(R.id.Button01);
-        shotBtn.setText("Shot");
+        shotBtn.setBackgroundResource(R.drawable.shot);
+        //shotBtn.setText("Shot");
         shotBtn.setOnClickListener(this);
 
         recordBtn = (Button) findViewById(R.id.Button02);
-        recordBtn.setText("Start");
+        recordBtn.setBackgroundResource(R.drawable.rec);
+        recordBtn.setText("Rec");
         recordBtn.setOnClickListener(this);
 
         recorder = new VideoRecorder();

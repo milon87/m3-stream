@@ -12,50 +12,49 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:orientation="vertical"
 	    android:layout_weight="0.7" 
+	    android:gravity="center"
 	    >
     
 		<FrameLayout android:id="@+id/FrameLayout01"
 			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent"
-			xmlns:android="http://schemas.android.com/apk/res/android">
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			>
 		
 		    <SurfaceView 
 		    	android:layout_height="wrap_content" 
 		    	android:id="@+id/SurfaceView01" 
 		    	android:layout_width="wrap_content">
 		    </SurfaceView>
-	    	
-	    	<LinearLayout 
-		    	android:id="@+id/LinearLayout01" 
-		    	android:layout_width="fill_parent" 
-		    	android:layout_height="wrap_content"
-		    	android:gravity="bottom">
-				<Button 
+		    
+		<LinearLayout 
+			android:id="@+id/LinearLayout01" 
+			android:layout_width="300dip" 
+			android:layout_height="100dip"
+			android:gravity="center"
+			>
+			     <Button 
 					android:id="@+id/Button01" 
-					android:layout_width="fill_parent" 
-			        android:layout_height="fill_parent"
-			        android:layout_weight="1"
-			        android:textSize="1sp"
+					android:layout_width="80dip" 
+			        android:layout_height="60dip"
+			        android:textSize="15sp"
+			        android:paddingRight="40dip"
 			        android:background="@drawable/button_shape"
-			        android:drawableTop="@drawable/shot">
+			        >
 				</Button>
 				<Button 
 					android:id="@+id/Button02" 
-					android:layout_width="fill_parent" 
-			        android:layout_height="fill_parent"
-			        android:layout_weight="1"
-			        android:textSize="1sp"
+					android:layout_width="60dip" 
+			        android:layout_height="60dip"
+			        android:textSize="15sp"
+			        
 			        android:background="@drawable/button_shape"
-			        android:drawableTop="@drawable/rec">
+			        android:text=".">
 					</Button>
-		    </LinearLayout>
-	    	    
+	    	 </LinearLayout>    
 		</FrameLayout>
-		
-		
-		
+
 	</LinearLayout>	
 	
 	

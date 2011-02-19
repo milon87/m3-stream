@@ -65,6 +65,8 @@
 
 		     	<Button 
 		     		android:id="@+id/play" 
+		     		android:layout_height="wrap_content" 
+					android:layout_width="fill_parent" 
 		     		android:layout_weight="1"
 		     		android:textSize="1sp"
 			        android:background="@drawable/button_shape"
