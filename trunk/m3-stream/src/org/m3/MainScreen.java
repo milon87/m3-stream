@@ -207,12 +207,12 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
                 try {
                     // запрещаем общий доступ к камере
                     camera.reconnect();
-                } catch (IOException e) {
+                    // снова включаем preview камеры
+                    camera.startPreview();
+                } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                // снова включаем preview камеры
-                camera.startPreview();
                 recordBtn.setImageDrawable(MainScreen.this.getResources().getDrawable(R.drawable.rec));
                 // включаем кнопку фотосъемки
                 shotBtn.setEnabled(true);
