@@ -13,14 +13,12 @@
 	    android:layout_height="fill_parent"
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_weight="0.7" 
-	    android:gravity="center"
-	    >
+	    android:gravity="center" >
     
 		<FrameLayout android:id="@+id/FrameLayout01"
 			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent"
-			xmlns:android="http://schemas.android.com/apk/res/android"
-			>
+			xmlns:android="http://schemas.android.com/apk/res/android" >
 		
 		    <SurfaceView 
 		    	android:layout_height="wrap_content" 
@@ -28,39 +26,22 @@
 		    	android:layout_width="wrap_content">
 		    </SurfaceView>
 		    
-		<LinearLayout 
-			android:id="@+id/LinearLayout01" 
-			android:layout_width="fill_parent" 
-			android:layout_height="90dip"
-			android:gravity="center"
-			>
-			     <Button 
-					android:id="@+id/Button01" 
-					android:layout_width="70dip" 
-			        android:layout_height="50dip"
-			        android:textSize="15sp"
-			        android:paddingRight="40dip"
-			        android:background="@drawable/button_shape"
-			        >
-				</Button>
-				<TextView 
-					android:id="@+id/Button03" 
-					android:layout_width="60dip" 
-			        android:layout_height="50dip"
-			        android:textSize="15sp"
-			        
-			        >
-				</TextView>
-				
-				<Button 
-					android:id="@+id/Button02" 
-					android:layout_width="70dip" 
-			        android:layout_height="70dip"
-			        android:textSize="15sp"
-			        
-			        android:background="@drawable/button_shape"
-			        android:text=".">
-					</Button>
+			<LinearLayout 
+				android:id="@+id/LinearLayout01" 
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:paddingTop="20dp"
+				android:gravity="center" >
+			    <ImageView 
+					android:id="@+id/imgShot" 
+					android:layout_width="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:paddingRight="20dip" />
+				<ImageView 
+					android:id="@+id/imgRec" 
+					android:layout_width="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:paddingLeft="20dp" />
 	    	 </LinearLayout>    
 		</FrameLayout>
 

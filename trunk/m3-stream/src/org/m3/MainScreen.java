@@ -3,7 +3,6 @@ package org.m3;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -38,8 +37,8 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
     private SurfaceView preview;
     private VideoRecorder recorder;
     
-    private Button shotBtn;
-    private Button recordBtn;
+    private ImageView shotBtn;
+    private ImageView recordBtn;
     private Boolean isRecording = false;
 
     private static final int IDM_PREF = 101;
@@ -90,14 +89,12 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         // кнопка имеет имя Button01
-        shotBtn = (Button) findViewById(R.id.Button01);
-        shotBtn.setBackgroundResource(R.drawable.shot);
-        //shotBtn.setText("Shot");
+        shotBtn = (ImageView) findViewById(R.id.imgShot);
+        shotBtn.setImageDrawable(MainScreen.this.getResources().getDrawable(R.drawable.shot));
         shotBtn.setOnClickListener(this);
 
-        recordBtn = (Button) findViewById(R.id.Button02);
-        recordBtn.setBackgroundResource(R.drawable.rec);
-        recordBtn.setText("Rec");
+        recordBtn = (ImageView) findViewById(R.id.imgRec);
+        recordBtn.setImageDrawable(MainScreen.this.getResources().getDrawable(R.drawable.rec));
         recordBtn.setOnClickListener(this);
 
         recorder = new VideoRecorder();
@@ -259,8 +256,8 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
 
                 // снова включаем preview камеры
                 camera.startPreview();
-
-                recordBtn.setText("Record");
+                
+                recordBtn.setImageDrawable(MainScreen.this.getResources().getDrawable(R.drawable.rec));
                 
                 // включаем кнопку фотосъемки
                 shotBtn.setEnabled(true);
@@ -284,7 +281,8 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
                 recorder.setPreview(surfaceHolder.getSurface());
                 recorder.start(String.format("/sdcard/CameraExample/%d.mp4", System.currentTimeMillis()));
                 
-                recordBtn.setText("Stop");
+                recordBtn.setImageDrawable(MainScreen.this.getResources().getDrawable(R.drawable.stop));
+                
             }
 
             isRecording = !isRecording;
