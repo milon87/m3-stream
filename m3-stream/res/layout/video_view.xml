@@ -24,13 +24,6 @@
 	        android:layout_height="240px"
 	        android:layout_gravity="center"
 	    />
-	     <VideoView 
-	        android:id="@+id/surface_view2" 
-	        android:layout_width="320px"
-	        android:layout_height="240px"
-	        android:layout_gravity="center"
-	    />
-	   	
 	        	
     	<TableLayout 
         android:id="@+id/TableLayout01" 
