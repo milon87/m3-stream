@@ -6,11 +6,11 @@ import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.view.Surface;
 
-public class VRecorder 
+public class VideoRecorder 
 {
     private MediaRecorder recorder;
     
-    public VRecorder()
+    public VideoRecorder()
     {
     }
 

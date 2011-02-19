@@ -26,7 +26,7 @@ public class Home extends Activity {
         btnVideoRec.setOnClickListener(new OnClickListener() {
         	@Override
 			public void onClick(View arg0) {
-	        	Intent intent = new Intent(Home.this, VideoRec.class);
+	        	Intent intent = new Intent(Home.this, MainScreen.class);
 	        	startActivity(intent);
 			}
         });

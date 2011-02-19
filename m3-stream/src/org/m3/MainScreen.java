@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class VideoRec extends Activity implements SurfaceHolder.Callback,
+public class MainScreen extends Activity implements SurfaceHolder.Callback,
         View.OnClickListener, Camera.PictureCallback, Camera.PreviewCallback,
         Camera.AutoFocusCallback
 {
@@ -34,7 +34,7 @@ public class VideoRec extends Activity implements SurfaceHolder.Callback,
     private Camera camera;
     private SurfaceHolder surfaceHolder;
     private SurfaceView preview;
-    private VRecorder recorder;
+    private VideoRecorder recorder;
     
     private Button shotBtn;
     private Button recordBtn;
@@ -59,10 +59,19 @@ public class VideoRec extends Activity implements SurfaceHolder.Callback,
     {
         super.onCreate(savedInstanceState);
 
+        // если хотим, чтобы приложение постоянно имело портретную ориентацию
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        // если хотим, чтобы приложение было полноэкранным
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // и без заголовка
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.video_rec);
         
         Button btnHome = (Button) findViewById(R.id.btnHome);
-                
+        
         btnHome.setOnClickListener(new OnClickListener() {
         	@Override
 			public void onClick(View arg0) {
@@ -70,15 +79,6 @@ public class VideoRec extends Activity implements SurfaceHolder.Callback,
             	finish();
 			}
         });
-        
-        // если хотим, чтобы приложение постоянно имело портретную ориентацию
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        // если хотим, чтобы приложение было полноэкранным
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        // и без заголовка
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // наше SurfaceView имеет имя SurfaceView01
         preview = (SurfaceView) findViewById(R.id.SurfaceView01);
@@ -96,7 +96,7 @@ public class VideoRec extends Activity implements SurfaceHolder.Callback,
         recordBtn.setText("Start");
         recordBtn.setOnClickListener(this);
 
-        recorder = new VRecorder();
+        recorder = new VideoRecorder();
     }
 
     @Override
