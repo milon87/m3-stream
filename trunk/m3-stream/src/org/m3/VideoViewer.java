@@ -6,72 +6,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.URLUtil;
 import android.widget.MediaController;
 import android.widget.Toast;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import org.m3.R;
-
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.Gallery;
-import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.MediaController;
-import android.widget.Toast;
-
 
 
 public class VideoViewer extends Activity {
-
     Button b;
     VideoView preview;
     SurfaceHolder holder;
     private MediaPlayer mp;
     //public String path2 = "http://daily3gp.com/vids/747.3gp";
     private VideoView mVideoView;
-    private VideoView mVideoView2;
     private static final String TAG = "VideoViewDemo";
 
 	private EditText mPath;
@@ -95,12 +54,9 @@ public class VideoViewer extends Activity {
             	finish();
 			}
         });
-        
-  
-        
+    
         /*VideoView myVideoView = (VideoView)findViewById(R.id.surface_view);
  
-
         String viewSource ="rtsp://v5.cache1.c.youtube.com/CjYLENy73wIaLQklThqIVp_AsxMYESARFEIJbXYtZ29vZ2xlSARSBWluZGV4YIvJo6nmx9DvSww=/0/0/0/video.3gp";
         
         myVideoView.setVideoURI(Uri.parse(viewSource));
@@ -111,7 +67,7 @@ public class VideoViewer extends Activity {
        /* VideoView videoView = (VideoView) findViewById(R.id.surface_view2);
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
-// Set video link (mp4 format )
+		// Set video link (mp4 format )
 		Uri video = Uri.parse("http://daily3gp.com/vids/747.3gp");
 		videoView.setMediaController(mediaController);
 		videoView.setVideoURI(video);
@@ -175,10 +131,9 @@ public class VideoViewer extends Activity {
 		try {
 			final String path = mPath.getText().toString();
 			Log.v(TAG, "path: " + path);
-			if (path == null || path.length() == 0) {
+			if(path == null || path.length() == 0) {
 				Toast.makeText(VideoViewer.this, "File URL/path is empty",
 						Toast.LENGTH_LONG).show();
-
 			} else {
 				// If the path has not changed, just start the media player
 				if (path.equals(current) && mVideoView != null) {
@@ -195,25 +150,24 @@ public class VideoViewer extends Activity {
 				//mVideoView.setVideoPath(getDataSource(path));
 				mVideoView.start();
 				mVideoView.requestFocus();
-            
-			}
-		} catch (Exception e) {
+            }
+		} catch(Exception e) {
 			Log.e(TAG, "error: " + e.getMessage(), e);
-			if (mVideoView != null) {
+			if(mVideoView != null) {
 				mVideoView.stopPlayback();
 			}
 		}
 	}
 
 	private String getDataSource(String path) throws IOException {
-		if (!URLUtil.isNetworkUrl(path)) {
+		if(!URLUtil.isNetworkUrl(path)) {
 			return path;
 		} else {
 			URL url = new URL(path);
 			URLConnection cn = url.openConnection();
 			cn.connect();
 			InputStream stream = cn.getInputStream();
-			if (stream == null)
+			if(stream == null)
 				throw new RuntimeException("stream is null");
 			File temp = File.createTempFile("mediaplayertmp", "dat");
 			temp.deleteOnExit();
