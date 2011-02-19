@@ -119,7 +119,7 @@ public class VideoViewer extends Activity {
        
         
         mVideoView = (VideoView) findViewById(R.id.surface_view);
-        mVideoView2 = (VideoView)findViewById(R.id.surface_view2);
+        //mVideoView2 = (VideoView)findViewById(R.id.surface_view2);
         
         mPath = (EditText) findViewById(R.id.path);
 		mPath.setText("http://daily3gp.com/vids/747.3gp");
@@ -195,16 +195,7 @@ public class VideoViewer extends Activity {
 				//mVideoView.setVideoPath(getDataSource(path));
 				mVideoView.start();
 				mVideoView.requestFocus();
-
-				
-				//Другой вариант
-				
-				Uri video2 = Uri.parse("http://daily3gp.com/vids/747.3gp");
-				mVideoView2.setMediaController(new MediaController(this));
-				mVideoView2.setVideoURI(video2);
-				mVideoView2.start();
-				mVideoView2.requestFocus();
-               
+            
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error: " + e.getMessage(), e);
