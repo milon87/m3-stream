@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ПТС</string>
-    <string name="tutorial">Tutorial</string>
+    <string name="hello">Hello World, MainScreen!</string>
     <string name="video_rec">Запись видео</string>
     <string name="home">Home</string>
     <string name="next">Next</string>
+    
     <string name="video_view">Просмотр видео</string>
+    <string name="audio_br">AudioEncodingBitRate</string>
+    <string name="video_br">VideoEncodingBitRate</string>
+    <string name="audio_sr">AudioSamplingRate</string>
+    <string name="audio_ch">AudioChannels</string>
+    <string name="video_fr">VideoFrameRate</string>
+    <string name="video_sz_w">VideoSizeWidth</string>
+    <string name="video_sz_h">VideoSizeHeight</string>
+    <string name="max_duration">MaxDuration</string>
+    <string name="max_filesize">setMaxFileSize</string>
 </resources>

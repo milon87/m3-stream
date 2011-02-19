@@ -8,20 +8,36 @@
     android:background="#37c4ff" >
     
    
-    <LinearLayout
-		android:id="@+id/video_view"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:asg="http://schemas.android.com/apk/res/org.m3"
-	    android:orientation="vertical"
-	    android:layout_weight="0.7" 
-	    />
-	    
-	     
-			
-
-		
+       
+	<FrameLayout android:id="@+id/FrameLayout01"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"> 
+		     
+		<SurfaceView 
+			android:id="@+id/SurfaceView01" 
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content">
+	    </SurfaceView>
+	
+	    <LinearLayout 
+	    	android:id="@+id/LinearLayout01" 
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="200dip">
+			<Button 
+				android:id="@+id/Button01" 
+				android:text="@+id/Button01" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content">
+			</Button>
+			<Button 
+				android:id="@+id/Button02" 
+				android:text="@+id/Button02" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content">
+			</Button>
+	    </LinearLayout>
+	</FrameLayout>
+	
 	<TableLayout 
         android:id="@+id/TableLayout02" 
         android:layout_width="fill_parent" 
