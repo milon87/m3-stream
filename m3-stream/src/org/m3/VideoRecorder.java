@@ -36,9 +36,13 @@ public class VideoRecorder {
     }
 
     public void stop() {
-    	recorder.stop();
-    	recorder.reset();
-    }
+    	try {
+    		recorder.stop();
+    		recorder.reset();
+    	} catch(IllegalStateException e) {
+		    e.printStackTrace();
+	    }
+	}
     
     public void setPreview(Surface surface) {
     	recorder.setPreviewDisplay(surface);

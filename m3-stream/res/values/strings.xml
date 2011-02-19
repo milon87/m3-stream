@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Translator</string>
-    <string name="hello">Hello World, MainScreen!</string>
-    <string name="video_rec">Запись видео</string>
+    <string name="app_name">Stream</string>
+    <string name="video_rec">Video Encoder</string>
     <string name="home">Home</string>
     <string name="next">Next</string>
     
-    <string name="video_view">Просмотр видео</string>
+    <string name="video_view">Video Viewer</string>
     <string name="audio_br">AudioEncodingBitRate</string>
     <string name="video_br">VideoEncodingBitRate</string>
     <string name="audio_sr">AudioSamplingRate</string>
