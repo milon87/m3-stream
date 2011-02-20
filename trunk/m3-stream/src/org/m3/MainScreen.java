@@ -1,12 +1,17 @@
 package org.m3;
 
+import android.R.string;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
@@ -16,7 +21,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.view.View;
 
 import android.hardware.Camera;
@@ -54,6 +65,15 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
     private int videoMaxFileSize;
     private MediaPlayer mp;
     
+    private EditText mName;
+    private EditText mDescription;
+    
+ // код результата проверки
+    
+    private static final int ALERT_NONE = 0; // параметры введены верно
+    private static final int ALERT_NAME = 1; // некорректное имя
+    private static final int ALERT_DESCRIPTION = 2; // некорректное описание
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +81,7 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // и без заголовка
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        
         setContentView(R.layout.video_rec);
         Button btnHome = (Button) findViewById(R.id.btnHome);
         btnHome.setOnClickListener(new OnClickListener() {
@@ -196,6 +216,90 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
 
     @Override
     public void onClick(View v) {
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        
+    	//Строим элементы диалога
+    	LinearLayout linear = new LinearLayout(this);
+    	TableLayout table1 = new TableLayout(this); 
+    	//table1.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    	
+    	TableRow row1 = new TableRow(this);
+        TableRow row2 = new TableRow(this);
+        TableRow row3 = new TableRow(this);
+        TableRow row4 = new TableRow(this);
+        
+        TextView label = new TextView(this); 
+        label.setTextSize(20);
+        label.setText("Name"); 
+        
+        TextView labe2 = new TextView(this); 
+        labe2.setTextSize(20);
+        labe2.setText("Description");
+        
+    	mName = new EditText(this);
+    	mName.setWidth(300);
+    	
+    	mDescription = new EditText(this);
+    	mDescription.setWidth(300);
+    	mDescription.setHeight(200);
+        	
+    	row1.addView(label);
+    	row2.addView(mName);
+        row3.addView(labe2);
+        row4.addView(mDescription);
+           
+        table1.addView(row1);
+        table1.addView(row2);
+        table1.addView(row3);
+        table1.addView(row4);
+                                 
+        linear.addView(table1);
+  	
+    	
+        builder
+           	.setView(linear)
+            .setMessage(R.string.create)
+            //при нажатии на кнопку yes передача запустится
+            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton) 
+                    {
+                    	
+                    	//Проверяем всели параметры заданы
+                    	final String name = mName.getText().toString();
+                    	final String description = mDescription.getText().toString();
+                    	
+                    	int alertCode = checkInputParameters(name, description);
+                        if (alertCode != ALERT_NONE)
+                        {
+                        	if(alertCode == ALERT_NAME){
+                        	Toast.makeText(MainScreen.this, "Неправильное название",
+            						Toast.LENGTH_LONG).show();
+                        	}
+                        	
+                        	if(alertCode == ALERT_DESCRIPTION){
+                            	Toast.makeText(MainScreen.this, "Описание отсутствует",
+                						Toast.LENGTH_LONG).show();
+                            	}
+                        	
+                           return;
+
+                        }
+                       //onStart();                            
+                    }
+                })
+             //при нажатии на кнопку cancel отмена передачи
+            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton) 
+                    {
+                    	onStop(); 
+                    }
+                })
+            .show();
+        	        	
+    	
         if(v == shotBtn) {
             // либо делаем снимок непосредственно здесь
             // либо включаем обработчик автофокуса
@@ -228,6 +332,7 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
                 // задаем параметры, preview, имя файла и включаем запись
                 recorder.setRecorderParams(videoBitrate, audioBitrate, audioSamplingrate, audioChannels, videoFramerate, videoWidth, videoHeight, videoMaxDuration, videoMaxFileSize);
                 recorder.setPreview(surfaceHolder.getSurface());
+                
                 recorder.start(String.format("/sdcard/CameraExample/%d.mp4", System.currentTimeMillis()));
                 recordBtn.setImageDrawable(MainScreen.this.getResources().getDrawable(R.drawable.stop));
             }
@@ -267,4 +372,21 @@ public class MainScreen extends Activity implements SurfaceHolder.Callback,
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
         // здесь можно обрабатывать изображение, показываемое в preview
     }
+    
+    //Проверка все-ли данные были введены
+    private int checkInputParameters(String name, String description)
+    {
+    	 if (name == null)
+    	 {
+    	     return ALERT_NAME;
+    	 }
+    	    
+    	 if (description == null)
+    	 {
+    	     return ALERT_DESCRIPTION;
+    	 }
+    	    
+    	 return ALERT_NONE;
+    }
+    
 }
