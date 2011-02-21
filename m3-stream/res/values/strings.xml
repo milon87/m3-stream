@@ -15,7 +15,12 @@
     <string name="video_sz_h">VideoSizeHeight</string>
     <string name="max_duration">MaxDuration</string>
     <string name="max_filesize">setMaxFileSize</string>
-    <string name="create">Создать видео</string>
+    <string name="create">Make video</string>
+    <string name="stream">Stream</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="title">Title:</string>
+    <string name="tag">Tag:</string>
+    <string name="description">Description:</string>
+    <string name="start">Start</string>
 </resources>

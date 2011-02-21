@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:id="@+id/video_view_main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#001938" >
+    
+   
+    <LinearLayout
+		android:id="@+id/video_view"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:asg="http://schemas.android.com/apk/res/org.m3"
+	    android:orientation="vertical"
+	    android:layout_weight="0.7" 
+	    >
+	    
+	   <VideoView 
+	        android:id="@+id/surface_view" 
+	        android:layout_width="320px"
+	        android:layout_height="240px"
+	        android:layout_gravity="center"
+	    />
+		
+	</LinearLayout>	    
+			
+</LinearLayout>

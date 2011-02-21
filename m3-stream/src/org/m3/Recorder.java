@@ -6,10 +6,10 @@ import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.view.Surface;
 
-public class VideoRecorder {
+public class Recorder {
     private MediaRecorder recorder;
     
-    public VideoRecorder() {
+    public Recorder() {
     }
 
     public void open() {
