@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
 
 public class Home extends Activity {
@@ -17,16 +16,13 @@ public class Home extends Activity {
         setContentView(R.layout.home);
         
               
-        TextView MainHdr = (TextView) findViewById(R.id.MainHdr);
-        MainHdr.setPadding(0,20,0,0);
-        
         Button btnVideoRec = (Button) findViewById(R.id.btnVideoRec);
         Button btnVideoView = (Button) findViewById(R.id.btnVideoView);
                 
         btnVideoRec.setOnClickListener(new OnClickListener() {
         	@Override
 			public void onClick(View arg0) {
-	        	Intent intent = new Intent(Home.this, MainScreen.class);
+	        	Intent intent = new Intent(Home.this, Client.class);
 	        	startActivity(intent);
 			}
         });
@@ -34,7 +30,7 @@ public class Home extends Activity {
         btnVideoView.setOnClickListener(new OnClickListener() {
         	@Override
 			public void onClick(View arg0) {
-	        	Intent intent = new Intent(Home.this, VideoViewer.class);
+	        	Intent intent = new Intent(Home.this, Viewer.class);
 	        	startActivity(intent);
 			}
         });

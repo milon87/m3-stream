@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:id="@+id/client_main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#001938" >
+    
+    <LinearLayout
+		android:id="@+id/client"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_weight="0.9" 
+	    android:orientation="vertical"
+	    android:paddingTop="30dp"
+	    android:gravity="top" >
+		<TextView
+	        android:id="@+id/lblTitle"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/title"
+	        android:layout_gravity="left" />
+		<EditText
+			android:id="@+id/edtTitle"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center" />
+	        
+	    <TextView
+	        android:id="@+id/lblTag"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/tag"
+	        android:paddingTop="10dp"
+	        android:layout_gravity="left" />
+		<EditText
+			android:id="@+id/edtTag"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center" />    
+
+	    <TextView
+	        android:id="@+id/lblDescription"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/description"
+	        android:paddingTop="10dp"
+	        android:layout_gravity="left" />
+		<EditText
+			android:id="@+id/edtDescription"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:lines="3"
+	        android:layout_gravity="center" />    
+
+	</LinearLayout>	
+	
+	
+	<TableLayout 
+        android:id="@+id/TableLayout01" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.1" >
+        <TableRow 
+            android:id="@+id/TableRow01" 
+            android:layout_weight="1"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:layout_gravity="center" >
+		     <Button
+		        android:id="@+id/btnStream" 
+		        android:layout_width="fill_parent" 
+		        android:layout_height="fill_parent"
+		        android:textSize="15sp"
+		        android:background="@drawable/button_shape"
+				android:layout_weight="1"
+            	android:text="@string/stream" />
+		</TableRow>  
+   </TableLayout>
+</LinearLayout>
+	

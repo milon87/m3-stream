@@ -4,34 +4,28 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    >
+    android:background="#001938" >
 
-    <TextView
-        android:id="@+id/MainHdr"
-        android:layout_width="wrap_content"
+     <ImageView 
+		android:id="@+id/imgLogo" 
+		android:layout_width="wrap_content" 
         android:layout_height="wrap_content"
+        android:src="@drawable/logo"
         android:layout_gravity="center"
-        android:layout_weight="0.2"
-        android:padding="20sp"
-        android:textSize="15sp"
-		android:text="@string/app_name"
-        />
-
+        android:layout_weight="0.2"/>
      
      <TableLayout 
         android:id="@+id/TableLayout01" 
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="0.2"
-        >
+        android:layout_weight="0.2" >
         <TableRow 
             android:id="@+id/TableRow01" 
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:layout_gravity="center"
-            >
+            android:layout_gravity="center" >
 
 		     <Button 
 		        android:id="@+id/btnVideoRec" 
@@ -40,16 +34,15 @@
 		      	android:textSize="15sp"
 		      	android:layout_weight="1"
 		        android:text="@string/video_rec"
-		        android:background="@drawable/home_button_shape"  />
-		  </TableRow>  
+		        android:background="@drawable/button_shape"  />
+		</TableRow>  
 		  
-		  <TableRow 
+		<TableRow 
             android:id="@+id/TableRow01" 
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:layout_gravity="center"
-            >   
+            android:layout_gravity="center" >   
 	
 		     <Button 
 		        android:id="@+id/btnVideoView" 
@@ -58,12 +51,7 @@
 		        android:textSize="15sp"
 		        android:layout_weight="1"
 		        android:text="@string/video_view"
-		        android:background="@drawable/home_button_shape"
-		        />
-		        
-
-		     	     
+		        android:background="@drawable/button_shape" />
         </TableRow>
      </TableLayout>
-
 </LinearLayout>

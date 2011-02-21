@@ -13,47 +13,27 @@ import android.webkit.URLUtil;
 import android.widget.MediaController;
 import android.widget.Toast;
 import org.m3.R;
-import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.VideoView;
 
 
-public class VideoViewer extends Activity {
+public class Viewer extends Activity {
     Button b;
     VideoView preview;
     SurfaceHolder holder;
-    private MediaPlayer mp;
-    //public String path2 = "http://daily3gp.com/vids/747.3gp";
     private VideoView mVideoView;
     private static final String TAG = "VideoViewDemo";
-
-	private EditText mPath;
-	private ImageButton mPlay;
-	private ImageButton mPause;
-	private ImageButton mReset;
-	private ImageButton mStop;
 	private String current;
+	String URL = "http://daily3gp.com/vids/747.3gp";	
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.video_view);
-    
-        Button btnHome = (Button) findViewById(R.id.btnHome);
-                
-        btnHome.setOnClickListener(new OnClickListener() {
-        	@Override
-			public void onClick(View arg0) {
-        		if(mp!=null) mp.stop();
-            	finish();
-			}
-        });
+        setContentView(R.layout.viewer);
     
         /*VideoView myVideoView = (VideoView)findViewById(R.id.surface_view);
  
@@ -76,48 +56,7 @@ public class VideoViewer extends Activity {
         
         mVideoView = (VideoView) findViewById(R.id.surface_view);
         //mVideoView2 = (VideoView)findViewById(R.id.surface_view2);
-        
-        mPath = (EditText) findViewById(R.id.path);
-		mPath.setText("http://daily3gp.com/vids/747.3gp");
-		//mPath.setText("http://daily3gp.com/vids/747.3gp");
 		
-		Button mPlay = (Button) findViewById(R.id.play);
-		Button mPause = (Button) findViewById(R.id.pause);
-		Button mReset = (Button) findViewById(R.id.reset);
-		Button mStop = (Button) findViewById(R.id.stop);
-		
-		/*mPlay = (ImageButton) findViewById(R.id.play);
-		mPause = (ImageButton) findViewById(R.id.pause);
-		mReset = (ImageButton) findViewById(R.id.reset);
-		mStop = (ImageButton) findViewById(R.id.stop);*/
-
-		mPlay.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				playVideo();
-			}
-		});
-		mPause.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				if (mVideoView != null) {
-					mVideoView.pause();
-				}
-			}
-		});
-		mReset.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				if (mVideoView != null) {
-					mVideoView.seekTo(0);
-				}
-			}
-		});
-		mStop.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				if (mVideoView != null) {
-					current = null;
-					mVideoView.stopPlayback();
-				}
-			}
-		});
 		runOnUiThread(new Runnable(){
 			public void run() {
 				playVideo();
@@ -129,10 +68,10 @@ public class VideoViewer extends Activity {
 
     private void playVideo() {
 		try {
-			final String path = mPath.getText().toString();
+			final String path = URL;
 			Log.v(TAG, "path: " + path);
 			if(path == null || path.length() == 0) {
-				Toast.makeText(VideoViewer.this, "File URL/path is empty",
+				Toast.makeText(Viewer.this, "File URL/path is empty",
 						Toast.LENGTH_LONG).show();
 			} else {
 				// If the path has not changed, just start the media player
@@ -141,7 +80,7 @@ public class VideoViewer extends Activity {
 					mVideoView.requestFocus();
 					return;
 				}
-				Toast.makeText(VideoViewer.this, path,
+				Toast.makeText(Viewer.this, path,
 						Toast.LENGTH_LONG).show();
 				current = path;
 				Uri video = Uri.parse(path);
