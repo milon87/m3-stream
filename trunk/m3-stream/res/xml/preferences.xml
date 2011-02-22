@@ -15,7 +15,7 @@
     <EditTextPreference android:key="@string/video_sz_h"
         android:title="Height" android:defaultValue="480" />
     <EditTextPreference android:key="@string/max_duration"
-        android:title="Max Duration" android:defaultValue="10" />
+        android:title="Max Duration" android:defaultValue="1000000" />
     <EditTextPreference android:key="@string/max_filesize"
-        android:title="Max Filesize" android:defaultValue="10" />
+        android:title="Max Filesize" android:defaultValue="1000000" />
 </PreferenceScreen>

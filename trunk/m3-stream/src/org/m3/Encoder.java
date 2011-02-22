@@ -46,6 +46,8 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
     private int videoMaxDuration;
     private int videoMaxFileSize;
 
+    private final String FILE_PATH = "/sdcard/test.mp4";/*String.format("/sdcard/%d.mp4", System.currentTimeMillis())*/
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,11 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
     @Override
     protected void onResume() {
         super.onResume();
-        camera = Camera.open();
-        recorder.open();
+        
+        if(camera == null) {
+	     	camera = Camera.open();
+	      	recorder.open();
+	    } 
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         
@@ -81,8 +86,8 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
         audioChannels = Integer.parseInt(prefs.getString(getString(R.string.audio_ch), "1"));
         videoWidth = Integer.parseInt(prefs.getString(getString(R.string.video_sz_w), "640"));
         videoHeight = Integer.parseInt(prefs.getString(getString(R.string.video_sz_h), "480"));
-        videoMaxDuration = Integer.parseInt(prefs.getString(getString(R.string.max_duration), "0"));
-        videoMaxFileSize = Integer.parseInt(prefs.getString(getString(R.string.max_filesize), "0"));
+        videoMaxDuration = Integer.parseInt(prefs.getString(getString(R.string.max_duration), "1000000"));
+        videoMaxFileSize = Integer.parseInt(prefs.getString(getString(R.string.max_filesize), "1000000"));
     }
 
     @Override
@@ -147,13 +152,13 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
         // correct size of displayed preview  
         if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             // portrait view
-            camera.setDisplayOrientation(90);
+        	camera.setDisplayOrientation(90);
             lp.height = previewSurfaceHeight;
             lp.width = (int) (previewSurfaceHeight / aspect);
         } else {
             // landscape view
-            camera.setDisplayOrientation(0);
-            lp.width = previewSurfaceWidth;
+        	camera.setDisplayOrientation(0);
+        	lp.width = previewSurfaceWidth;
             lp.height = (int) (previewSurfaceWidth / aspect);
         }
 
@@ -183,7 +188,7 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
                 // stop camera preview
                 camera.stopPreview();
                 // allow common access to camera
-                try {
+                //try {
                 	camera.unlock();
 	                // recorder uses already created camera
 	                recorder.setCamera(camera);
@@ -191,10 +196,10 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
 	                recorder.setRecorderParams(videoBitrate, audioBitrate, audioSamplingrate, audioChannels, videoFramerate, videoWidth, videoHeight, videoMaxDuration, videoMaxFileSize);
 	                recorder.setPreview(surfaceHolder.getSurface());
 	                
-	                recorder.start(String.format("/sdcard/CameraExample/%d.mp4", System.currentTimeMillis()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+	                recorder.start(FILE_PATH);
+                //} catch (Exception e) {
+                //    e.printStackTrace();
+                //}
                 btnStart.setText("Stop");
             }
             isRecording = !isRecording;
