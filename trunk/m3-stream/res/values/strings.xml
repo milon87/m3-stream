@@ -4,8 +4,9 @@
     <string name="video_rec">Video Encoder</string>
     <string name="home">Home</string>
     <string name="next">Next</string>
-    
     <string name="video_view">Video Viewer</string>
+    
+    <string name="server_ip">ServerIP</string>
     <string name="audio_br">AudioEncodingBitRate</string>
     <string name="video_br">VideoEncodingBitRate</string>
     <string name="audio_sr">AudioSamplingRate</string>
@@ -15,6 +16,7 @@
     <string name="video_sz_h">VideoSizeHeight</string>
     <string name="max_duration">MaxDuration</string>
     <string name="max_filesize">setMaxFileSize</string>
+    
     <string name="create">Make video</string>
     <string name="stream">Stream</string>
     <string name="yes">Yes</string>
