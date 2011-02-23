@@ -29,6 +29,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import org.m3.server.ServerService;
 import org.m3.util.Utils;
 
 
@@ -58,8 +59,9 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
     private int videoMaxFileSize;
 
     //private final String FILE_PATH = "/sdcard/test.mp4";/*String.format("/sdcard/%d.mp4", System.currentTimeMillis())*/
-	private String FILE_NAME;
-    private String SERVER_IP = "192.168.0.101";
+    private ServerService service;
+    private String FILE_NAME;
+    private String SERVER_IP;
 	private static final int COPY_CHUNK_SIZE =  4 << 10; // 4 kBytes
 
 	
@@ -69,7 +71,8 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.encoder);
-
+        service = new ServerService(this);
+        
         preview = (SurfaceView) findViewById(R.id.SurfaceView01);
 
         surfaceHolder = preview.getHolder();
@@ -82,8 +85,8 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
 
         recorder = new Recorder();
 
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //SERVER_IP = prefs.getString(this.getString(R.string.server_ip), "http://192.168.0.101");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SERVER_IP = prefs.getString(this.getString(R.string.server_ip), "192.168.0.101");
         FILE_NAME = Utils.getDefaultCacheDir(this).getAbsolutePath() + "/___v_video_encoded.mp4";
     }
 
@@ -263,15 +266,15 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
             try {
 	            //DatagramSocket socket = new DatagramSocket();
 	            //byte[] buf = ("CLIENT|test.vms|").getBytes();
-	            InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+	            service.connectMaster("video1.vms");
+	            service.connectClient("video1.vms");
+            	InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 	            //DatagramPacket packet = new DatagramPacket(buf, buf.length, serverAddr, 8080);
 	            //socket.send(packet);
 	            
 	            Socket socket = new Socket(serverAddr, 80);
             	try {
-            		Log.d("ClientActivity", "C: Sending command.");
                     PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-                    out.println("CLIENT|video.vms|");
                     
                     final File streamFile = File.createTempFile(FILE_NAME, "dat", Utils.getDefaultCacheDir(Encoder.this));
         			InputStream stream = new FileInputStream(streamFile);
@@ -284,12 +287,10 @@ public class Encoder extends Activity implements SurfaceHolder.Callback,
 						//buf = Base64.decode(buf, Base64.DEFAULT);
 						out.println(buf); //buf.length
 					} while (true);
-                    Log.d("ClientActivity", "C: Sent.");
                 } catch (Exception e) {
                     Log.e("ClientActivity", "S: Error", e);
                 }
 	            socket.close();
-	            Log.d("UDP", "C: Closed.");
             } catch (Exception e) {
                 Log.e("UDP", "C: Error", e);
             }
