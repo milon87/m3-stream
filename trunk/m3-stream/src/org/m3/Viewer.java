@@ -14,7 +14,7 @@ import android.widget.MediaController;
 import android.widget.Toast;
 
 import org.m3.R;
-import org.m3.service.VMuktiService;
+import org.m3.server.ServerService;
 import org.m3.util.Utils;
 
 import android.util.Log;
@@ -27,7 +27,7 @@ public class Viewer extends Activity {
 	//private final String URL = "http://daily3gp.com/vids/747.3gp";	
 	private static final String STREAM_FILE_NAME = "___v_video_streamed";
 	private static final int COPY_CHUNK_SIZE =  4 << 10; // 4 kBytes
-	private VMuktiService service;
+	private ServerService service;
 	
 	
     @Override
@@ -35,7 +35,7 @@ public class Viewer extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewer);
     
-        service = new VMuktiService(this);
+        service = new ServerService(this);
         mVideoView = (VideoView) findViewById(R.id.surface_view);
         
 		runOnUiThread(new Runnable(){

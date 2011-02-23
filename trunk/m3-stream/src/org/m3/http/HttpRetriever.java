@@ -2,9 +2,11 @@ package org.m3.http;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -19,8 +21,15 @@ public class HttpRetriever {
 	private DefaultHttpClient client = new DefaultHttpClient();  
 
 	public String retrieve(String url) {
+		return retrieve(url, null);
+	}
+	
+	public String retrieve(String url, NameValuePair header) {
 		HttpGet getRequest = new HttpGet(url);
         try {
+        	if(header != null) {
+        		getRequest.addHeader(header.getName(), header.getValue());
+            }
         	HttpResponse getResponse = client.execute(getRequest);
         	final int statusCode = getResponse.getStatusLine().getStatusCode();
         	if(statusCode != HttpStatus.SC_OK) {
