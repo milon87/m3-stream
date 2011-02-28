@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/client_main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingTop="40dp"
+    android:background="#181818" >
+    
+    <LinearLayout
+		android:id="@+id/brDetails"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="vertical"
+	    android:paddingBottom="10dp"
+	    android:gravity="top" >
+		<TextView
+	        android:id="@+id/lblName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/name"
+	        android:layout_gravity="left" />
+		<EditText
+			android:id="@+id/edtName"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center" />
+	        
+	    <TextView
+	        android:id="@+id/lblCategory"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/category"
+	        android:paddingTop="10dp"
+	        android:layout_gravity="left" />
+		<Spinner 
+	        android:id="@+id/spCategories"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center" 
+	        android:drawSelectorOnTop="true" />
+		<!-- EditText
+			android:background="@drawable/button_shape"
+	        
+			android:id="@+id/edtCategory"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center" /-->    
+
+	    <TextView
+	        android:id="@+id/lblDescription"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/description"
+	        android:paddingTop="10dp"
+	        android:layout_gravity="left" />
+		<EditText
+			android:id="@+id/edtDescription"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:lines="3"
+	        android:layout_gravity="center" />    
+
+		<TableLayout 
+	        android:id="@+id/TableLayout01" 
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:paddingTop="20dp"
+	        android:paddingBottom="5dp"
+	        android:paddingRight="60dp"
+	        android:paddingLeft="60dp"
+	        android:orientation="horizontal"
+			android:gravity="center" >
+	        <TableRow 
+	            android:id="@+id/TableRow01" 
+	            android:gravity="center"
+			    android:layout_width="fill_parent" 
+	            android:layout_height="fill_parent">
+			     <Button 
+			        android:id="@+id/btnBroadcast" 
+			        android:layout_width="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:layout_weight="1" 
+			        android:textSize="18sp"
+			        android:gravity="center"
+			        android:textColor="@color/black"
+			        android:background="@drawable/button_shape"
+			        android:text="@string/broadcast" />
+	        </TableRow>
+	     </TableLayout>  
+
+	</LinearLayout>	
+
+</LinearLayout>
+	

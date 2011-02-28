@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="40dp"
+    android:orientation="vertical"
+    android:background="#181818" >
+
+	<LinearLayout
+		android:id="@+id/header"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="top"
+	    android:orientation="horizontal"
+	    android:paddingBottom="10dp"
+	    android:background="#181818" >
+	    <ImageView
+	        android:id="@+id/btnBack"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="5dp"
+	        android:layout_weight="0.05"
+	        android:src="@drawable/back"
+	        android:layout_gravity="left" />
+	    <EditText
+	        android:id="@+id/edtSearch"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.9"
+	        android:paddingTop="5dp"
+	        android:background="@drawable/edit_shape"
+	        android:layout_gravity="center" />
+	    <ImageView
+	        android:id="@+id/btnSearch"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="0.05"
+	        android:padding="5dp"
+	        android:src="@drawable/magnifier"
+	        android:layout_gravity="right" />
+	 </LinearLayout>
+	    
+	<TableLayout 
+        android:id="@+id/TableLayout01" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal"
+		android:gravity="center" >
+        <TableRow 
+            android:id="@+id/TableRow01" 
+            android:gravity="center"
+		    android:layout_width="fill_parent" 
+            android:layout_height="fill_parent">
+		     <Button 
+		        android:id="@+id/btnBroadcast" 
+		        android:layout_width="wrap_content" 
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1" 
+		        android:textSize="18sp"
+		        android:gravity="center"
+		        android:textColor="@color/black"
+		        android:background="@drawable/button_shape"
+		        android:text="@string/broadcast_yourself" />
+        </TableRow>
+     </TableLayout>   
+
+	<GridView 
+	    android:id="@+id/gridCategories"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:numColumns="1"
+	    android:verticalSpacing="1dp"
+	    android:stretchMode="columnWidth"
+	    android:gravity="center"
+	    android:listSelector="@drawable/grid_selector"
+	    android:background="@drawable/background_grey" />
+
+</LinearLayout>    
