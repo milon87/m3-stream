@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#181818" >
+<LinearLayout android:id="@+id/LinearLayout01" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:paddingTop="30dp"
+ 	android:orientation="vertical"
+ 	android:background="#181818" >
+
+ 	<LinearLayout android:id="@+id/LinearLayout02"
+ 		android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content"
+ 		android:paddingTop="10dp"
+ 		android:orientation="vertical">
+ 		<TextView android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:id="@+id/lblAddress"
+ 			android:text="@string/emailAddress" />
+ 		<EditText android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:id="@+id/address" />
+	</LinearLayout>
+
+ 	<LinearLayout android:id="@+id/LinearLayout03"
+ 		android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content"
+ 		android:paddingBottom="10dp"
+ 		android:orientation="vertical">
+ 		<TextView android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content" 
+ 			android:id="@+id/lblSubject"
+ 			android:text="@string/emailSubject" />
+ 		<EditText android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:textSize="10sp"
+ 			android:id="@+id/subject" />
+	</LinearLayout>
+
+	<EditText android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content"
+ 		android:lines="5"
+ 		android:textSize="10sp"
+ 		android:id="@+id/text" />
+
+	<LinearLayout android:id="@+id/LinearLayout04"
+ 		android:layout_width="fill_parent"
+ 		android:layout_height="wrap_content"
+ 		android:gravity="center" >
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+	 		android:id="@+id/btnSend"
+	 		android:text="@string/send"
+	 		android:padding="10dp"
+	 		android:background="@drawable/button_shape" />
+	</LinearLayout>
+</LinearLayout>
+</ScrollView>	
