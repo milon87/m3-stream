@@ -1,0 +1,12 @@
+<resources>
+
+    <string-array name="categories">
+        <item>Entertainment</item>
+        <item>Music</item>
+        <item>News and Politics</item>
+        <item>Sports</item>
+        <item>Howto and Style</item>
+        <item>Nonprofits and Activism</item>
+    </string-array>
+    
+</resources>
