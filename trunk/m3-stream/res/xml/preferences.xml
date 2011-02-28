@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference android:key="@string/server_ip"
-        android:title="Server IP" android:defaultValue="192.168.0.101" />
+        android:title="Server IP" android:defaultValue="192.168.0.100" />
     <EditTextPreference android:key="@string/video_br"
         android:title="Video Bitrate" android:defaultValue="150000" />
     <EditTextPreference android:key="@string/video_fr"
