@@ -18,7 +18,7 @@ public class ServerService {
 	public ServerService(Context context) {
 		httpRetriever = new HttpRetriever();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-	    SERVER_IP = prefs.getString(context.getString(R.string.server_ip), "192.168.0.101");
+	    SERVER_IP = prefs.getString(context.getString(R.string.server_ip), "192.168.0.100");
 	    
 	}
 	
