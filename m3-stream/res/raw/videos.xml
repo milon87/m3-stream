@@ -1,0 +1,144 @@
+<videos>
+	<category name="Entertainment" description="funny home videos" >	
+	   <video image="v00" name="Old Men Lightsaber Duel" author="pissdrunkslondon" description="Return of the Geriatric" rating="5" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	</category>
+	<category name="Music" description="live shows" >	
+	   <video image="v10" name="Dr.Dre - I Need A Doctor" author="DrDreVIVO" description="Explicit" rating="3" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	</category>
+	<category name="News and Politics" description="country news" >	
+	   <video image="v20" name="Anonymous Hacks Westboro Baptist" author="MidweekPolitics" description="some description here" rating="1" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	</category>
+	<category name="Sports" description="some description here" >	
+	   <video image="v30" name="Dana White UFC 127 Video Blog - 2/23" author="UFC" rating="0" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	</category>
+	<category name="Howto and Style" description="some description here" >	
+	   <video image="v40" name="Perfect Red Lips" author="MichellePhan" description="some description here" rating="5" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	   <video image="v00" name="Old Men Lightsaber Duel" author="pissdrunkslondon" description="Return of the Geriatric" rating="5" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	   <video image="v30" name="Dana White UFC 127 Video Blog - 2/23" author="UFC" rating="0" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	</category>
+	<category name="Nonprofits and Activism" description="some description here" >	
+	   <video image="v50" name="NASA Time Machine" author="Trippy" description="Discovery astrovan" rating="5" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	   <video image="v00" name="Old Men Lightsaber Duel" author="pissdrunkslondon" description="Return of the Geriatric" rating="5" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	   <video image="v30" name="Dana White UFC 127 Video Blog - 2/23" author="UFC" rating="0" url="http://daily3gp.com/vids/747.3gp">
+		   	<comments>
+				<comment date="11.01.2010 12:00" author="yura" text="epic fail"/>
+				<comment date="11.01.2010 12:10" author="john" text="I like this"/>
+				<comment date="11.01.2010 12:15" author="stan" text="agree with you"/>
+				<comment date="11.01.2010 12:20" author="denny" text="lol"/>
+			</comments>
+			<channel>
+				<cvideo image="v00" name="video 1" description="some previous video of this guy" rating="5" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v10" name="video 2" description="some previous video of this guy" rating="4" url="http://daily3gp.com/vids/747.3gp" />
+		   		<cvideo image="v20" name="video 3" description="some previous video of this guy" rating="2" url="http://daily3gp.com/vids/747.3gp" />
+			</channel>
+	   </video>
+	</category>
+</videos>
