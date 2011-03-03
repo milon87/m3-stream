@@ -96,7 +96,7 @@ public class VideoActivity extends Activity {
         
 		runOnUiThread(new Runnable(){
 			public void run() {
-				//playVideo();
+				playVideo();
 			}
 		});
 

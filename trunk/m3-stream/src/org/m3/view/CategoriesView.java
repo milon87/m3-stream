@@ -25,14 +25,6 @@ public class CategoriesView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories);
         
-        final ImageView btnBack = (ImageView) findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				CategoriesView.this.finish();
-			}
-        });
-        
         final Button btnBroadcast = (Button) findViewById(R.id.btnBroadcast);
         btnBroadcast.setOnClickListener(new OnClickListener() {
 			@Override

@@ -21,6 +21,7 @@
  			android:text="@string/emailAddress" />
  		<EditText android:layout_width="fill_parent"
  			android:layout_height="wrap_content"
+ 			android:maxLines="1"
  			android:id="@+id/address" />
 	</LinearLayout>
 
@@ -41,19 +42,30 @@
 
 	<EditText android:layout_width="fill_parent"
  		android:layout_height="wrap_content"
- 		android:lines="5"
+ 		android:lines="10"
  		android:textSize="10sp"
  		android:id="@+id/text" />
 
 	<LinearLayout android:id="@+id/LinearLayout04"
  		android:layout_width="fill_parent"
  		android:layout_height="wrap_content"
+ 		android:orientation="horizontal"
  		android:gravity="center" >
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 	 		android:id="@+id/btnSend"
 	 		android:text="@string/send"
 	 		android:padding="10dp"
+	 		android:layout_weight="1"
+	 		android:paddingRight="20dp"
+	 		android:background="@drawable/button_shape" />
+	 	<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+	 		android:id="@+id/btnCancel"
+	 		android:text="@string/cancel"
+	 		android:padding="10dp"
+	 		android:layout_weight="1"
+	 		android:paddingLeft="20dp"
 	 		android:background="@drawable/button_shape" />
 	</LinearLayout>
 </LinearLayout>

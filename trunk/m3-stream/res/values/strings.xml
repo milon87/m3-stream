@@ -22,8 +22,11 @@
     <string name="emailAddress">Email address:</string>
     <string name="emailSubject">Subject:</string>
     <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="emailSignature">Whatzup bro, check this video.</string>
     <string name="sendMail">Send mail...</string>
+    <string name="invalidEmail">Invalid email address</string>
     
     <string name="name">Name:</string>
     <string name="category">Category:</string>
