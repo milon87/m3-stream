@@ -7,16 +7,20 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import android.view.View;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 
 import java.io.BufferedWriter;
@@ -28,6 +32,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 
 import org.m3.R;
 import org.m3.Recorder;
@@ -86,23 +91,8 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
         btnStart.setOnClickListener(this);
 
         recorder = new Recorder();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SERVER_IP = prefs.getString(this.getString(R.string.server_ip), "192.168.0.100");
-        FILE_NAME = Utils.getDefaultCacheDir(this).getAbsolutePath() + "/___v_video_encoded.mp4";
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        
-        if(camera == null) {
-	     	camera = Camera.open();
-	      	recorder.open();
-	    } 
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
         videoBitrate = Integer.parseInt(prefs.getString(getString(R.string.video_br), "100000"));
         videoFramerate = Integer.parseInt(prefs.getString(getString(R.string.video_fr), "15"));
         audioBitrate = Integer.parseInt(prefs.getString(getString(R.string.audio_br), "8000"));
@@ -112,18 +102,9 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
         videoHeight = Integer.parseInt(prefs.getString(getString(R.string.video_sz_h), "480"));
         videoMaxDuration = Integer.parseInt(prefs.getString(getString(R.string.max_duration), "1000000"));
         videoMaxFileSize = Integer.parseInt(prefs.getString(getString(R.string.max_filesize), "1000000"));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        recorder.close();
-        if(camera != null) {
-            camera.setPreviewCallback(null);
-            camera.stopPreview();
-            camera.release();
-            camera = null;
-        }
+        
+        SERVER_IP = prefs.getString(this.getString(R.string.server_ip), "192.168.0.100");
+        FILE_NAME = Utils.getDefaultCacheDir(this).getAbsolutePath() + "/___v_video_encoded.mp4";
     }
 
     @Override
@@ -149,67 +130,107 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
         return true;
     }
 
+    private boolean _previewIsRunning;
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    	if(_previewIsRunning){
+    		camera.stopPreview();
+    	}
+
+    	try{
+    		Camera.Parameters parameters = camera.getParameters();
+			//Get the optimal preview size so we don't get an exception when setting the parameters 
+    		List<Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
+    		Size optimalPreviewSize = getOptimalPreviewSize(supportedPreviewSizes, width, height);
+    		parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+	
+    		camera.setParameters(parameters);
+			camera.setPreviewDisplay(holder);
+		} catch(Exception ex){
+			ex.printStackTrace();
+			Log.e(this.getClass().getName(), ex.toString());
+		}
+	
+		camera.startPreview();
+		_previewIsRunning = true;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        try {
-            camera.setPreviewDisplay(holder);
-            camera.setPreviewCallback(this);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        Size previewSize = camera.getParameters().getPreviewSize();
-        float aspect = (float) previewSize.width / previewSize.height;
-
-        int previewSurfaceWidth = preview.getWidth();
-        int previewSurfaceHeight = preview.getHeight();
-
-        LayoutParams lp = preview.getLayoutParams();
-
-        // correct size of displayed preview  
-        if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            // portrait view
-        	camera.setDisplayOrientation(90);
-            lp.height = previewSurfaceHeight;
-            lp.width = (int) (previewSurfaceHeight / aspect);
-        } else {
-            // landscape view
-        	camera.setDisplayOrientation(0);
-        	lp.width = previewSurfaceWidth;
-            lp.height = (int) (previewSurfaceWidth / aspect);
-        }
-
-        preview.setLayoutParams(lp);
-        camera.startPreview();
+    	openCamera();
     }
+    
+    
+    private void openCamera() {
+	   	 try { 	
+			 camera = Camera.open();
+		     recorder.open();
+		 } catch(Exception e) {
+			 Log.e("BroadcastView", e.toString());
+	     }
+    }
+    
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+    	camera.stopPreview();
+    	_previewIsRunning = false;
+    	camera.release();
     }
 
-    @Override
-    public void onClick(View v) {
+    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
+       final double ASPECT_TOLERANCE = 0.05;
+       double targetRatio = (double) w / h;
+       if (sizes == null) return null;
+
+       Size optimalSize = null;
+       double minDiff = Double.MAX_VALUE;
+
+       int targetHeight = h;
+
+       // Try to find an size match aspect ratio and size
+       for (Size size : sizes) {
+           double ratio = (double) size.width / size.height;
+           if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
+           if (Math.abs(size.height - targetHeight) < minDiff) {
+               optimalSize = size;
+               minDiff = Math.abs(size.height - targetHeight);
+           }
+       }
+
+       // Cannot find the one match the aspect ratio, ignore the requirement
+       if (optimalSize == null) {
+           minDiff = Double.MAX_VALUE;
+           for (Size size : sizes) {
+               if (Math.abs(size.height - targetHeight) < minDiff) {
+                   optimalSize = size;
+                   minDiff = Math.abs(size.height - targetHeight);
+               }
+           }
+       }
+       return optimalSize;
+   }
+
+   @Override
+   public void onClick(View v) {
         if(v == btnStart) {
             if(isRecording) {
                 recorder.stop();
                 try {
                     // deny common access to camera
-                    camera.reconnect();
+                    camera.release();
                     // turn on camera preview
-                    camera.startPreview();
+                    //camera.startPreview();
+                    openCamera();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                	Log.e("BroadcastView", e.getMessage());
                 }
                 btnStart.setText(this.getResources().getString(R.string.start));
             } else {
-                // stop camera preview
-                camera.stopPreview();
-                // allow common access to camera
-                //try {
+            	try {
+            		// stop camera preview
+            		camera.stopPreview();
+            		// allow common access to camera
                 	camera.unlock();
 	                // recorder uses already created camera
 	                recorder.setCamera(camera);
@@ -221,10 +242,11 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
 	                
 	                Thread cThread = new Thread(new UDPClient());
 	                cThread.start();
-                //} catch (Exception e) {
-                //    e.printStackTrace();
-                //}
-                btnStart.setText(this.getResources().getString(R.string.stop));
+	                btnStart.setText(this.getResources().getString(R.string.stop));
+	                
+            	} catch (Exception e) {
+                    Log.e("BroadcastView", e.toString());
+                }
             }
             isRecording = !isRecording;
         }
