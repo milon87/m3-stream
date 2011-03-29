@@ -1,38 +1,23 @@
 package org.m3.view.tabs;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.concurrent.Executors;
-
-import org.jboss.netty.bootstrap.ClientBootstrap;
-import org.jboss.netty.channel.ChannelFactory;
-import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.m3.model.Video;
 import org.m3.server.ServerService;
 import org.m3.util.Utils;
 import org.m3.xml.DataHandler;
 
 import com.flazr.rtmp.client.RtmpClient;
-import com.flazr.rtmp.client.RtmpClientPipelineFactory;
 import com.flazr.rtmp.client.RtmpClientSession;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.webkit.URLUtil;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -44,12 +29,7 @@ public class VideoActivity extends Activity {
 	private int progressStatus;
 	private Handler pHandler = new Handler();
 	private TableRow mainRow1;
-	
 	private ServerService service;
-	private String currentURL;
-	private final String URL = "rtmp://172.26.24.10/oflaDemo";	
-	private static final String STREAM_FILE_NAME = "___v_video_streamed";
-	private static final int COPY_CHUNK_SIZE =  4 << 10; // 4 kBytes
 	
     
     @Override
@@ -76,7 +56,7 @@ public class VideoActivity extends Activity {
         mainPanel.addView(mainRow1);
         main.addView(mainPanel);
         
-        progress = new ProgressBar(this);
+        /*progress = new ProgressBar(this);
 	    progress.setLayoutParams(new LayoutParams(40, 40));
 	    progress.setMax(10);
         // Start lengthy operation in a background thread
@@ -92,7 +72,7 @@ public class VideoActivity extends Activity {
                 }
             }
         }).start();
-        main.addView(progress);
+        main.addView(progress);*/
         
         setContentView(main);
     }
@@ -114,13 +94,13 @@ public class VideoActivity extends Activity {
         mainRow1.addView(videoView);
     }
     
- 	private void doCheck() {
+ 	/*private void doCheck() {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
     
     private void playVideo() {
 		try {
@@ -132,8 +112,8 @@ public class VideoActivity extends Activity {
 			
 			MediaController mc = new MediaController(this); 
 			videoView.setMediaController(mc);
-			//mVideoView.setVideoURI(video);
-			videoView.setVideoPath(path+"/test.flv");
+			videoView.setVideoURI(Uri.parse("http://www.mediacollege.com/video-gallery/testclips/barsandtone.flv"));
+			//videoView.setVideoPath(path+"/test.flv");
 			videoView.start();
 			videoView.requestFocus();
 			
@@ -182,7 +162,7 @@ public class VideoActivity extends Activity {
 		}
 	}
 	
-	private String getDataSource(String path) throws IOException {
+	/*private String getDataSource(String path) throws IOException {
 		if(!URLUtil.isNetworkUrl(path)) {
 			return path;
 		} else {
@@ -216,6 +196,6 @@ public class VideoActivity extends Activity {
 			}).start();
 			return tempPath;
 		}
-	}
+	}*/
     
 }
