@@ -58,10 +58,10 @@ public class Recorder {
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        recorder.setVideoEncodingBitRate(vbr);
+        /*recorder.setVideoEncodingBitRate(vbr);
         recorder.setAudioEncodingBitRate(abr);
         recorder.setAudioSamplingRate(asr);
-        recorder.setAudioChannels(ach);
+        recorder.setAudioChannels(ach);*/
         recorder.setVideoFrameRate(vfr);
         recorder.setVideoSize(w, h);
         recorder.setMaxDuration(md);

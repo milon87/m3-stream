@@ -4,13 +4,22 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.Executors;
 
+import org.jboss.netty.bootstrap.ClientBootstrap;
+import org.jboss.netty.channel.ChannelFactory;
+import org.jboss.netty.channel.ChannelFuture;
+import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.m3.model.Video;
 import org.m3.server.ServerService;
 import org.m3.util.Utils;
 import org.m3.xml.DataHandler;
+
+import com.flazr.rtmp.client.RtmpClientPipelineFactory;
+import com.flazr.rtmp.client.RtmpClientSession;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -37,7 +46,7 @@ public class VideoActivity extends Activity {
 	
 	private ServerService service;
 	private String currentURL;
-	//private final String URL = "http://daily3gp.com/vids/747.3gp";	
+	private final String URL = "rtmp://172.26.24.10/oflaDemo";	
 	private static final String STREAM_FILE_NAME = "___v_video_streamed";
 	private static final int COPY_CHUNK_SIZE =  4 << 10; // 4 kBytes
 	
@@ -114,8 +123,11 @@ public class VideoActivity extends Activity {
     
     private void playVideo() {
 		try {
-			//final String path = URL;
-			final String path = service.getVideoURI("video.vms"); // video.getUrl();
+			   RtmpClientSession session = new RtmpClientSession("rtmp://172.26.24.10:1935/oflaDemo/stream1301398793883");
+			   connect(session);
+			
+			/*final String path = URL;
+			//final String path = service.getVideoURI("video.vms"); // video.getUrl();
 			//InputStream stream = service.getStream("video.vms");
 			
 			Log.v("Viewer", "path: " + path);
@@ -135,22 +147,22 @@ public class VideoActivity extends Activity {
 				//Uri video = Uri.parse(path);
 				MediaController mc = new MediaController(this); 
 				
-				/*HttpParams httpParameters = new BasicHttpParams();
+				//HttpParams httpParameters = new BasicHttpParams();
 				// Set the timeout in milliseconds until a connection is established.
-				int timeoutConnection = 10000;
-				HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+				//int timeoutConnection = 10000;
+				//HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
 				// Set the default socket timeout (SO_TIMEOUT) 
 				// in milliseconds which is the timeout for waiting for data.
-				int timeoutSocket = 10000;
-				HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-				*/
+				//int timeoutSocket = 10000;
+				//HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+				
 				
 				videoView.setMediaController(mc);
 				//mVideoView.setVideoURI(video);
 				videoView.setVideoPath(getDataSource(path));
 				videoView.start();
 				videoView.requestFocus();
-            }
+            }*/
 		} catch(Exception e) {
 			Log.e("Viewer", "error: " + e.getMessage(), e);
 			if(videoView != null) {
@@ -159,6 +171,23 @@ public class VideoActivity extends Activity {
 		}
 	}
 
+ 	public static void connect(RtmpClientSession session) {
+	    ChannelFactory factory = new NioClientSocketChannelFactory (
+	        Executors.newCachedThreadPool(),
+	        Executors.newCachedThreadPool());
+	    ClientBootstrap bootstrap = new ClientBootstrap(factory);
+	    bootstrap.setPipelineFactory(new RtmpClientPipelineFactory(session));
+	    bootstrap.setOption("tcpNoDelay" , true);
+	    bootstrap.setOption("keepAlive", true);
+	    ChannelFuture future = bootstrap.connect(new InetSocketAddress(session.getHost(), session.getPort()));
+	    future.awaitUninterruptibly();
+	    if(!future.isSuccess()) {
+	        future.getCause().printStackTrace();
+	    }
+	    future.getChannel().getCloseFuture().awaitUninterruptibly();
+	    factory.releaseExternalResources();
+	}
+	
 	private String getDataSource(String path) throws IOException {
 		if(!URLUtil.isNetworkUrl(path)) {
 			return path;
