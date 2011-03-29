@@ -18,6 +18,7 @@ import org.m3.server.ServerService;
 import org.m3.util.Utils;
 import org.m3.xml.DataHandler;
 
+import com.flazr.rtmp.client.RtmpClient;
 import com.flazr.rtmp.client.RtmpClientPipelineFactory;
 import com.flazr.rtmp.client.RtmpClientSession;
 
@@ -123,8 +124,18 @@ public class VideoActivity extends Activity {
     
     private void playVideo() {
 		try {
-			   RtmpClientSession session = new RtmpClientSession("rtmp://172.26.24.10:1935/oflaDemo/stream1301398793883");
-			   connect(session);
+			
+			String path = Utils.createCacheDir(this, "vmukti").getAbsolutePath();
+			RtmpClientSession session = new RtmpClientSession("rtmp://172.26.24.10:1935/oflaDemo/stream1301409897214");
+			session.setSaveAs(path+"/test.flv");
+			RtmpClient.connect(session);
+			
+			MediaController mc = new MediaController(this); 
+			videoView.setMediaController(mc);
+			//mVideoView.setVideoURI(video);
+			videoView.setVideoPath(path+"/test.flv");
+			videoView.start();
+			videoView.requestFocus();
 			
 			/*final String path = URL;
 			//final String path = service.getVideoURI("video.vms"); // video.getUrl();
@@ -169,23 +180,6 @@ public class VideoActivity extends Activity {
 				videoView.stopPlayback();
 			}
 		}
-	}
-
- 	public static void connect(RtmpClientSession session) {
-	    ChannelFactory factory = new NioClientSocketChannelFactory (
-	        Executors.newCachedThreadPool(),
-	        Executors.newCachedThreadPool());
-	    ClientBootstrap bootstrap = new ClientBootstrap(factory);
-	    bootstrap.setPipelineFactory(new RtmpClientPipelineFactory(session));
-	    bootstrap.setOption("tcpNoDelay" , true);
-	    bootstrap.setOption("keepAlive", true);
-	    ChannelFuture future = bootstrap.connect(new InetSocketAddress(session.getHost(), session.getPort()));
-	    future.awaitUninterruptibly();
-	    if(!future.isSuccess()) {
-	        future.getCause().printStackTrace();
-	    }
-	    future.getChannel().getCloseFuture().awaitUninterruptibly();
-	    factory.releaseExternalResources();
 	}
 	
 	private String getDataSource(String path) throws IOException {
