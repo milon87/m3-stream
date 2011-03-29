@@ -259,10 +259,10 @@ public class RtmpHandshake {
         byte[] digestOut = Utils.sha256(peerPublicKey, sharedSecret);
         byte[] digestIn = Utils.sha256(ownPublicKey, sharedSecret);
         try {
-            cipherOut = Cipher.getInstance("RC4");
-            cipherOut.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(digestOut, 0, 16, "RC4"));
-            cipherIn = Cipher.getInstance("RC4");
-            cipherIn.init(Cipher.DECRYPT_MODE, new SecretKeySpec(digestIn, 0, 16, "RC4"));
+            cipherOut = Cipher.getInstance("AES");
+            cipherOut.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(digestOut, 0, 16, "AES"));
+            cipherIn = Cipher.getInstance("AES");
+            cipherIn.init(Cipher.DECRYPT_MODE, new SecretKeySpec(digestIn, 0, 16, "AES"));
             Log.i(this.getClass().getName(), "initialized encryption / decryption ciphers");
         } catch (Exception e) {
             throw new RuntimeException(e);
