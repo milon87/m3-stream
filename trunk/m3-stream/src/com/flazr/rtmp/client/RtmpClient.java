@@ -35,7 +35,6 @@ public class RtmpClient {
     }
 
     public static void connect(RtmpClientSession session) {
-        Utils.outputCopyrightNotice();
         ChannelFactory factory = new NioClientSocketChannelFactory (
             Executors.newCachedThreadPool(),
             Executors.newCachedThreadPool());
