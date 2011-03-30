@@ -60,6 +60,12 @@
         </TableRow>
      </TableLayout>   
 
+    <SurfaceView android:id="@+id/surface"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_gravity="center">
+    </SurfaceView>
+
 	<GridView 
 	    android:id="@+id/gridCategories"
 	    android:layout_width="fill_parent" 

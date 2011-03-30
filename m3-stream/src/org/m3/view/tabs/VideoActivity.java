@@ -1,5 +1,6 @@
 package org.m3.view.tabs;
 
+import org.m3.R;
 import org.m3.model.Video;
 import org.m3.server.ServerService;
 import org.m3.util.Utils;
@@ -35,13 +36,24 @@ public class VideoActivity extends Activity {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.stream);
+        
         final int categoryId = this.getIntent().getExtras().getInt("categoryId");
         final int videoId = this.getIntent().getExtras().getInt("videoId");
         
-        video = DataHandler.getCategories().get(categoryId).getVideos().get(videoId);
+        //video = DataHandler.getCategories().get(categoryId).getVideos().get(videoId);
+        //service = new ServerService(this);
+        videoView = (VideoView) findViewById(R.id.videoView);
+		MediaController mediaController = new MediaController(this);
+		videoView.setMediaController(mediaController);
+        String path1="http://commonsware.com/misc/test2.3gp";
+        Uri uri=Uri.parse(path1);
+  	    videoView.setVideoURI(uri);
+		videoView.start();
         
-        LinearLayout main = new LinearLayout(this);
+        
+        //playVideo();
+        /*LinearLayout main = new LinearLayout(this);
         main.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
         main.setOrientation(LinearLayout.VERTICAL);
         
@@ -50,11 +62,12 @@ public class VideoActivity extends Activity {
         mainPanel.setPadding(5, 20, 5, 10);
         mainPanel.setStretchAllColumns(true);
         mainRow1 = new TableRow(this);
-    
-        drawMainRow1();
+        mainRow1.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    	*/
+        //drawMainRow1();
         
-        mainPanel.addView(mainRow1);
-        main.addView(mainPanel);
+       /* mainPanel.addView(mainRow1);
+        main.addView(mainPanel);*/
         
         /*progress = new ProgressBar(this);
 	    progress.setLayoutParams(new LayoutParams(40, 40));
@@ -74,24 +87,26 @@ public class VideoActivity extends Activity {
         }).start();
         main.addView(progress);*/
         
-        setContentView(main);
+        //setContentView(main);
     }
 	
     private void drawMainRow1() {
-    	mainRow1.removeAllViews();
-    	
-    	videoView = new VideoView(this);
-    	videoView.setPadding(10,10,10,10);
-    	service = new ServerService(this);
+    	//mainRow1.removeAllViews();
+    	//videoView = new VideoView(this);
+    	//videoView.setPadding(10,10,10,10);
+    	//service = new ServerService(this);
         
-		runOnUiThread(new Runnable(){
+        //videoView = (VideoView) findViewById(R.id.videoView);
+    	
+    	//playVideo();
+    	/*runOnUiThread(new Runnable(){
 			public void run() {
 				playVideo();
 			}
-		});
+		});*/
 
         
-        mainRow1.addView(videoView);
+       // mainRow1.addView(videoView);
     }
     
  	/*private void doCheck() {
@@ -105,17 +120,42 @@ public class VideoActivity extends Activity {
     private void playVideo() {
 		try {
 			
-			String path = Utils.createCacheDir(this, "vmukti").getAbsolutePath();
-			RtmpClientSession session = new RtmpClientSession("rtmp://172.26.24.10:1935/oflaDemo/stream1301409897214");
-			session.setSaveAs(path+"/test.flv");
-			RtmpClient.connect(session);
+			//String path = Utils.createCacheDir(this, "vmukti").getAbsolutePath();
+			//RtmpClientSession session = new RtmpClientSession("rtmp://172.26.24.10:1935/oflaDemo/stream1301409897214");
+			//session.setSaveAs(path+"/test.flv");
+			//RtmpClient.connect(session);
 			
-			MediaController mc = new MediaController(this); 
+			/*MediaController mc = new MediaController(this); 
 			videoView.setMediaController(mc);
-			videoView.setVideoURI(Uri.parse("http://www.mediacollege.com/video-gallery/testclips/barsandtone.flv"));
+			videoView.setVideoURI(Uri.parse("http://people.sc.fsu.edu/~jburkardt/data/mp4/cavity_flow_movie.mp4"));
 			//videoView.setVideoPath(path+"/test.flv");
 			videoView.start();
-			videoView.requestFocus();
+			videoView.requestFocus();*/
+			
+			
+			/*MediaController mediaController = new MediaController(this);
+			// Set video link (mp4 format )
+			Uri video = Uri.parse("http://commonsware.com/misc/test2.3gp");
+			videoView.setMediaController(mediaController);
+			videoView.setVideoURI(video);
+			videoView.start();*/
+			
+
+			
+	        /*VideoView videoView = (VideoView) findViewById(R.id.VideoView);
+			MediaController mediaController = new MediaController(this);
+			//mediaController.setAnchorView(videoView);
+			// Set video link (mp4 format )
+			//Uri video = Uri.parse("http://people.sc.fsu.edu/~jburkardt/data/mp4/cavity_flow_movie.mp4");
+			videoView.setMediaController(mediaController);
+			//videoView.setVideoURI(video);
+			//video.setVideoPath("http://people.sc.fsu.edu/~jburkardt/data/mp4/cavity_flow_movie.mp4");
+			//videoView.start();
+			 String path="http://www.ted.com/talks/download/video/8584/talk/761";
+	         String path1="http://commonsware.com/misc/test2.3gp";
+	         Uri uri=Uri.parse(path1);
+	  	     videoView.setVideoURI(uri);
+			 videoView.start();*/
 			
 			/*final String path = URL;
 			//final String path = service.getVideoURI("video.vms"); // video.getUrl();
