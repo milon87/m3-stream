@@ -9,10 +9,8 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -24,9 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.Toast;
-import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
 
 
@@ -40,11 +36,6 @@ public class CategoriesView extends Activity implements
 	    private SurfaceView mPreview;
 	    private SurfaceHolder holder;
 	    private String path;
-	    private Bundle extras;
-	    private static final String MEDIA = "media";
-	    private static final int LOCAL_AUDIO = 1;
-	    private static final int STREAM_AUDIO = 2;
-	    private static final int RESOURCES_AUDIO = 3;
 	    private static final int LOCAL_VIDEO = 4;
 	    private static final int STREAM_VIDEO = 5;
 	    private boolean mIsVideoSizeKnown = false;
@@ -62,9 +53,8 @@ public class CategoriesView extends Activity implements
 	        holder = mPreview.getHolder();
 	        holder.addCallback(this);
 	        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-	        extras = getIntent().getExtras();
 	        
-	        playVideo(STREAM_VIDEO);
+	        //playVideo(STREAM_VIDEO);
 	        
 	        final Button btnBroadcast = (Button) findViewById(R.id.btnBroadcast);
 	        btnBroadcast.setOnClickListener(new OnClickListener() {
@@ -133,7 +123,6 @@ public class CategoriesView extends Activity implements
 	                     * reasonably interleaved.
 	                     * 
 	                     */
-	                    path = "http://commonsware.com/misc/test2.3gp";
 	                    if (path == "") {
 	                        // Tell the user to provide a media file URL.
 	                        Toast
@@ -210,8 +199,9 @@ public class CategoriesView extends Activity implements
 
 	    public void surfaceCreated(SurfaceHolder holder) {
 	        Log.d(TAG, "surfaceCreated called");
-	        playVideo(extras.getInt(MEDIA));
-
+	        
+	        path = "http://commonsware.com/misc/test2.3gp";
+            playVideo(STREAM_VIDEO);
 
 	    }
 
