@@ -20,7 +20,7 @@ import java.util.Properties;
 
 public class Text {
 
-	private static String url = "rtmp://your.test.server/screen/";
+	private static String url = "rtmp://localhost/oflaDemo/";
 	private static String fileName = "test/teststream";
 	private static int framesToEncode = 60;
 	private static int x = 0;
