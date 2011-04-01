@@ -1,14 +1,18 @@
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.Runnable;
 import java.lang.Thread;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.xuggle.ferry.IBuffer;
+import com.xuggle.xuggler.Configuration;
 import com.xuggle.xuggler.Global;
 import com.xuggle.xuggler.IAudioResampler;
 import com.xuggle.xuggler.IAudioSamples;
@@ -16,6 +20,7 @@ import com.xuggle.xuggler.ICodec;
 import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IContainerFormat;
 import com.xuggle.xuggler.IPacket;
+import com.xuggle.xuggler.IPixelFormat;
 import com.xuggle.xuggler.IRational;
 import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
@@ -273,10 +278,61 @@ class ConnectionHandler implements Runnable {
 	    return true;
 	}
 
+	private static int height = 480;
+	private static int width = 640;
 	private boolean createOutput(String urlOut) {
-	    outContainer = IContainer.make();
+		/*outContainer = IContainer.make();
+		outContainerFormat = IContainerFormat.make();
+		outContainerFormat.setOutputFormat("flv", urlOut, null);
+		outContainer.setInputBufferLength(0);
+		int retVal = outContainer.open(urlOut, IContainer.Type.WRITE, outContainerFormat);
+		if (retVal < 0) { 
+			System.err.println("Could not open output container for live stream");
+			return false;
+		}
+		outVideoStream = outContainer.addNewStream(0);
+		outVideoCoder = outVideoStream.getStreamCoder();
+		ICodec codec = ICodec.findEncodingCodec(ICodec.ID.CODEC_ID_H264);
+		outVideoCoder.setNumPicturesInGroupOfPictures(5);
+		outVideoCoder.setCodec(codec);
+		outVideoCoder.setBitRate(200000);
+		outVideoCoder.setPixelType(IPixelFormat.Type.YUV420P);
+		outVideoCoder.setHeight(height);
+		outVideoCoder.setWidth(width);
+		System.out.println("[ENCODER] video size is " + width + "x" + height);
+		outVideoCoder.setFlag(IStreamCoder.Flags.FLAG_QSCALE, true);
+		outVideoCoder.setGlobalQuality(0);
+		IRational frameRate = IRational.make(5, 1);
+		outVideoCoder.setFrameRate(frameRate);
+		outVideoCoder.setTimeBase(IRational.make(frameRate.getDenominator(), frameRate.getNumerator()));
+		Properties props = new Properties();
+		InputStream is = VMuktiServer.class.getResourceAsStream("/libx264-normal.ffpreset");
+		try {
+			props.load(is);
+		} catch (IOException e) {
+			System.err.println("You need the libx264-normal.ffpreset file from the Xuggle distribution in your classpath.");
+			System.exit(1);
+		}
+		Configuration.configure(props, outVideoCoder);
+		outVideoCoder.open();
+		
+		videoResampler = IVideoResampler.make(OUT_WIDTH, OUT_HEIGHT, Type.YUV420P, IN_WIDTH, IN_HEIGHT, Type.YUV420P);
+	    audioResampler = IAudioResampler.make(1, // output channels
+	                    1, // input channels
+	                    11025, // new sample rate
+	                    8000 // old sample rate
+	    );
+		    
+		retVal = outContainer.writeHeader();
+		if(retVal < 0) {
+	        log.info("Could not write output FLV header: ");
+	        return false;
+	    }*/
+		
+		outContainer = IContainer.make();
 	    outContainerFormat = IContainerFormat.make();
 	    outContainerFormat.setOutputFormat("flv", urlOut, null);
+	    outContainer.setInputBufferLength(0); //
 	    int retVal = outContainer.open(urlOut, IContainer.Type.WRITE, outContainerFormat);
 	    if(retVal < 0) {
 	    	log.info("Could not open output container");
