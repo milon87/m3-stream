@@ -277,7 +277,7 @@ class ConnectionHandler implements Runnable {
 	    outContainer = IContainer.make();
 	    outContainerFormat = IContainerFormat.make();
 	    outContainerFormat.setOutputFormat("flv", urlOut, null);
-	    int retVal = outContainer.open(urlOut, IContainer.Type.WRITE, null);//outContainerFormat);
+	    int retVal = outContainer.open(urlOut, IContainer.Type.WRITE, outContainerFormat);
 	    if(retVal < 0) {
 	    	log.info("Could not open output container");
 	        return false;
