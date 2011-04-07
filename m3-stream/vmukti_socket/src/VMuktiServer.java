@@ -1,18 +1,17 @@
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.lang.Runnable;
 import java.lang.Thread;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.xuggle.ferry.IBuffer;
-import com.xuggle.xuggler.Configuration;
 import com.xuggle.xuggler.Global;
 import com.xuggle.xuggler.IAudioResampler;
 import com.xuggle.xuggler.IAudioSamples;
@@ -20,7 +19,6 @@ import com.xuggle.xuggler.ICodec;
 import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IContainerFormat;
 import com.xuggle.xuggler.IPacket;
-import com.xuggle.xuggler.IPixelFormat;
 import com.xuggle.xuggler.IRational;
 import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
@@ -31,7 +29,7 @@ import com.xuggle.xuggler.IPixelFormat.Type;
 
 public class VMuktiServer {
     private ServerSocket server;
-    private int port = 7777;
+    private int port = 7778;
  
     public VMuktiServer() {
         try {
@@ -55,8 +53,8 @@ public class VMuktiServer {
         //
         while(true) {
             try {
-                Socket socket = server.accept();
-                new ConnectionHandler(socket);
+                Socket client = server.accept();
+                new ConnectionHandler(client);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -66,28 +64,30 @@ public class VMuktiServer {
  
 class ConnectionHandler implements Runnable {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
-    private Socket socket;
+    private Socket client;
+    private ObjectInputStream ois;
+    
     //media parameters
-	private static final int IN_HEIGHT = 320;
+	private static final int IN_HEIGHT = 720;
 	private static final int IN_WIDTH = 480;
-	private static final int OUT_HEIGHT = 320;
+	private static final int OUT_HEIGHT = 720;
 	private static final int OUT_WIDTH = 480;
 	private static final int FPS = 15;
 
 	//decoders
 	private IStreamCoder videoDecoder;
-	private IStreamCoder audioDecoder;
+	//private IStreamCoder audioDecoder;
 
 	//encoders
 	private IContainer outContainer;
 	private IContainerFormat outContainerFormat;
 	private IStreamCoder outVideoCoder;
-	private IStreamCoder outAudioCoder;
+	//private IStreamCoder outAudioCoder;
 	private IStream outVideoStream;
-	private IStream outAudioStream;
+	//private IStream outAudioStream;
 
 	private IVideoResampler videoResampler;
-	private IAudioResampler audioResampler;
+	//private IAudioResampler audioResampler;
 	
 	//duration of 1 video frame
 	int tsInterval = 1000/FPS;
@@ -100,36 +100,49 @@ class ConnectionHandler implements Runnable {
 
 	IVideoPicture videoPicture = null;
 	IVideoPicture videoPicture_resampled = null;
-	IAudioSamples audioSamples = null;
-	IAudioSamples audioSamples_resampled = null;
-	int audioFrameLength = 32;
-	byte[] audioFrame = new byte[audioFrameLength];
+	//IAudioSamples audioSamples = null;
+	//IAudioSamples audioSamples_resampled = null;
+	//int audioFrameLength = 32;
+	//byte[] audioFrame = new byte[audioFrameLength];
 
 	int videoFrameCnt=0;
-	int audioFrameCnt=0;
+	//int audioFrameCnt=0;
 	int offset = 0;
 	IBuffer iBuffer = null;
 	IPacket packet = null;
 	int retVal = 0;
     
     
-    public ConnectionHandler(Socket socket) {
-        this.socket = socket;
-        Thread t = new Thread(this);
-        t.start();
+    public ConnectionHandler(Socket client) {
+        this.client = client;
+        
+        try {
+            ois = new ObjectInputStream(client.getInputStream());
+        } catch(Exception e1) {
+        	try {
+        		client.close();
+            }catch(Exception e) {
+                 System.out.println(e.getMessage());
+            }
+            return;
+       }
+       Thread t = new Thread(this);
+       t.start();
     }
  
     public void run() {
+    	SerializedObject x = null;
         try {
         	String urlOut="rtmp://localhost/oflaDemo/myStream";
     		createVideoDecoder();
-    		createAudioDecoder();
+    		//createAudioDecoder();
     		createOutput(urlOut);
     		
-    		BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    		//BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     		boolean end = false;
     		while(!end) {
-    			Frame f = getNextFrame(reader);
+    			x = (SerializedObject) ois.readObject();
+    			Frame f = getNextFrame(x.getArray());
     			if(f != null) {
 	    			if(f.getType() == 0) {  //video frame
 	    		    	lastVideoPts += tsInterval;
@@ -177,7 +190,7 @@ class ConnectionHandler implements Runnable {
 	    		            retVal = outContainer.writePacket(packet_out, true);
 	    		        }          
 	    		    }
-	    		    if(f.getType() == 1) {  //audio frame
+	    		    /*if(f.getType() == 1) {  //audio frame
 	    		        //we always have 32 bytes/sample                           
 	    		        int numPack = f.getLength() / audioFrameLength;
 	    		        int pos = 0;
@@ -225,33 +238,48 @@ class ConnectionHandler implements Runnable {
 	    		                }
 	    		            }
 	    		        }
-	    		    }
+	    		    }*/
     			}
     		}
     		
-    		reader.close();
-    		socket.close();
+    		ois.close();
+    		client.close();
             System.out.println("Done...");
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        } catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
     }
     
 	
     // getNextFrame which should return a byte array containing the next available frame, from which we construct an “incoming” packet on-the-fly	
-	private Frame getNextFrame(BufferedReader reader) {
+	private Frame getNextFrame(byte[] array) {
 		Frame ret = null;
-		String st;
 		try {
-			st = reader.readLine();
-			if(st != null) {
-				ret = new Frame(0, st.length(), st.getBytes());	
-				System.out.println("From client: " + st);
+			if(array != null && array.length > 0) {
+				ret = new Frame(0, array.length, array);	
+				System.out.println("From client: " + array);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	
+	class SerializedObject implements Serializable {
+		private static final long serialVersionUID = -2678155706954136109L;
+		private byte[] array = null;
+		
+		public SerializedObject() { }
+
+		public void setArray(byte array[]) {
+			this.array = array;
+		}
+
+		public byte[] getArray() {
+			return array;
+		}
 	}
 
 	private boolean createVideoDecoder() {
@@ -267,7 +295,7 @@ class ConnectionHandler implements Runnable {
 	    return true;
 	}
 
-	private boolean createAudioDecoder() {
+	/*private boolean createAudioDecoder() {
 	    audioDecoder = IStreamCoder.make(IStreamCoder.Direction.DECODING);
 	    audioDecoder.setCodec(ICodec.ID.CODEC_ID_AMR_NB);
 	    audioDecoder.setSampleRate(8000);
@@ -276,10 +304,10 @@ class ConnectionHandler implements Runnable {
 	    if(audioDecoder.open() < 0)
 	        return false;
 	    return true;
-	}
+	}*/
 
-	private static int height = 480;
-	private static int width = 640;
+	private static int height = 720;
+	private static int width = 480;
 	private boolean createOutput(String urlOut) {
 		/*outContainer = IContainer.make();
 		outContainerFormat = IContainerFormat.make();
@@ -332,7 +360,7 @@ class ConnectionHandler implements Runnable {
 		outContainer = IContainer.make();
 	    outContainerFormat = IContainerFormat.make();
 	    outContainerFormat.setOutputFormat("flv", urlOut, null);
-	    outContainer.setInputBufferLength(0); //
+	    //outContainer.setInputBufferLength(10000); //
 	    int retVal = outContainer.open(urlOut, IContainer.Type.WRITE, outContainerFormat);
 	    if(retVal < 0) {
 	    	log.info("Could not open output container");
@@ -358,7 +386,7 @@ class ConnectionHandler implements Runnable {
 	        return false;
 	    }
 
-	    outAudioStream = outContainer.addNewStream(1);
+	    /*outAudioStream = outContainer.addNewStream(1);
 	    outAudioCoder = outAudioStream.getStreamCoder();
 	    outAudioCoder.setCodec(ICodec.ID.CODEC_ID_MP3);
 	    outAudioCoder.setSampleRate(11025);
@@ -367,15 +395,15 @@ class ConnectionHandler implements Runnable {
 	    if(retVal < 0) {
 	        log.info("Could not open audio coder");
 	        return false;
-	    }
+	    }*/
 
 	    //resamplers for both video and audio:
 	    videoResampler = IVideoResampler.make(OUT_WIDTH, OUT_HEIGHT, Type.YUV420P, IN_WIDTH, IN_HEIGHT, Type.YUV420P);
-	    audioResampler = IAudioResampler.make(1, // output channels
+	    /*audioResampler = IAudioResampler.make(1, // output channels
 	                    1, // input channels
 	                    11025, // new sample rate
 	                    8000 // old sample rate
-	    );
+	    );*/
 
 	    retVal = outContainer.writeHeader();
 	    if(retVal < 0) {
