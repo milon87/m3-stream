@@ -6,7 +6,7 @@
     
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".view.CategoriesView"
+        <activity android:name=".view.CameraPreview"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" 
             android:screenOrientation="portrait" >
             <intent-filter>
