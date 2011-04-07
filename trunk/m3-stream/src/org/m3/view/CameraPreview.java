@@ -21,6 +21,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.net.Socket;
 
 import org.m3.util.Utils;
 
@@ -51,7 +55,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	//this variable stores the camera preview size  
 	private Size previewSize;  
 	//this array stores the pixels as hexadecimal pairs  
-	private int[] pixels;  
+	private byte[] pixels;  
 	 
 	Preview(Context context) {  
 		super(context);  
@@ -75,12 +79,15 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	        ///initialize the variables  
 	        parameters = mCamera.getParameters();  
 	        previewSize = parameters.getPreviewSize();  
-	        pixels = new int[previewSize.width * previewSize.height];  
+	        pixels = new byte[previewSize.width * previewSize.height];  
 	   
-	    } catch (IOException exception) {  
+	        socket = new Socket("172.26.24.10", 7778);
+	        oos = new ObjectOutputStream(socket.getOutputStream());
+    	    //output = new PrintWriter(socket.getOutputStream(), true);
+	    } catch (Exception e) {  
 	        mCamera.release();  
-	        mCamera = null;  
-	        // TODO: add more exception handling logic here  
+	        mCamera = null; 
+	        Log.e(this.getClass().getName(), e.toString());
 	    }  
 	}  
 	  
@@ -91,6 +98,12 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	    mCamera.stopPreview();  
 	    mCamera.release();  
 	    mCamera = null;  
+	    
+	    try {
+			socket.close();
+		} catch (IOException e) {
+			Log.e("BroadcastView", e.toString());
+		}
 	}  
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {  
@@ -102,12 +115,26 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	    mCamera.startPreview();  
 	}  
 	  
+	private Socket socket;
+	private ObjectOutputStream oos;
+	//private PrintWriter output;
 	@Override  
 	public void onPreviewFrame(byte[] data, Camera camera) {  
-	    //transforms NV21 pixel data into RGB pixels  
-	    decodeYUV420SP(pixels, data, previewSize.width,  previewSize.height); 
+		//transforms NV21 pixel data into RGB pixels  
+		try {
+			//decodeYUV420SP(pixels, data, previewSize.width,  previewSize.height); 
+			SerializedObject so = new SerializedObject();
+			so.setArray(data);
+        	oos.writeObject(so);
+        	oos.flush();
+		} catch (IOException e) {
+			Log.e(this.getClass().getName(), e.toString());
+		}
+        
+        //Log.e("To server", pixels.toString());
+	    //output.println(pixels);
 	    
-	    Bitmap bitmap = Bitmap.createBitmap(pixels, previewSize.width, previewSize.height, Config.ARGB_8888);
+	    /*Bitmap bitmap = Bitmap.createBitmap(pixels, previewSize.width, previewSize.height, Config.ARGB_8888);
 	    //File sdDir = Environment.getExternalStorageDirectory();
 		String fileName = CameraPreview.PATH + "/" + System.currentTimeMillis() + ".jpg";
 	    try {
@@ -119,11 +146,11 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 		} catch(Exception e) {
 			Log.e(this.getClass().getName(), e.toString());
 		}
-	    Log.i("Pixels", "File: " + fileName + "; The top right pixel has the following RGB (hexadecimal) values:" + Integer.toHexString(pixels[0]));  
+	    Log.i("Pixels", "File: " + fileName + "; The top right pixel has the following RGB (hexadecimal) values:" + Integer.toHexString(pixels[0]));*/  
 	}  
 	   
 	//Method from Ketai project! Not mine! See below...  
-	void decodeYUV420SP(int[] rgb, byte[] yuv420sp, int width, int height) {  
+	void decodeYUV420SP(byte[] rgb, byte[] yuv420sp, int width, int height) {  
 		final int frameSize = width * height;  
 	    for (int j = 0, yp = 0; j < height; j++) {       
 	    	int uvp = frameSize + (j >> 1) * width, u = 0, v = 0;  
@@ -148,8 +175,24 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	            if (b < 0)                  b = 0;               else if (b > 262143)  
 	                b = 262143;  
 	  
-	            rgb[yp] = 0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b >> 10) & 0xff);  
+	            rgb[yp] = (byte) (0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b >> 10) & 0xff));  
 	    	}  
 	    }  
-	}  
+	}
+	
+	class SerializedObject implements Serializable {
+		private static final long serialVersionUID = -2678155706954136109L;
+		private byte[] array = null;
+		
+		public SerializedObject() { }
+
+		public void setArray(byte array[]) {
+			this.array = array;
+		}
+
+		public byte[] getArray() {
+			return array;
+		}
+	}
+
 }
