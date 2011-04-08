@@ -141,14 +141,14 @@ public class CategoriesView extends Activity implements
 
 	            // Create a new media player and set the listeners
 	            mMediaPlayer = new MediaPlayer();
-	            mMediaPlayer.setDataSource(path);
+	            /*mMediaPlayer.setDataSource(path);
 	            mMediaPlayer.setDisplay(holder);
 	            mMediaPlayer.prepare();
 	            mMediaPlayer.setOnBufferingUpdateListener(this);
 	            mMediaPlayer.setOnCompletionListener(this);
 	            mMediaPlayer.setOnPreparedListener(this);
 	            mMediaPlayer.setOnVideoSizeChangedListener(this);
-	            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+	            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);*/
 
 
 	        } catch (Exception e) {

@@ -11,29 +11,26 @@ import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
-
 import android.view.View;
-
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
-
 import org.m3.R;
 import org.m3.Recorder;
 import org.m3.Settings;
@@ -133,19 +130,20 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
     private boolean _previewIsRunning;
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-    	if(_previewIsRunning){
+    	/*if(_previewIsRunning){
     		camera.stopPreview();
-    	}
+    	}*/
 
     	try{
-    		Camera.Parameters parameters = camera.getParameters();
+    		/*Camera.Parameters parameters = camera.getParameters();
 			//Get the optimal preview size so we don't get an exception when setting the parameters 
     		List<Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
     		Size optimalPreviewSize = getOptimalPreviewSize(supportedPreviewSizes, width, height);
-    		parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+    		parameters.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);*/
 	
+    		parameters.setPreviewSize(width, height);  
     		camera.setParameters(parameters);
-			camera.setPreviewDisplay(holder);
+			
 		} catch(Exception ex){
 			ex.printStackTrace();
 			Log.e(this.getClass().getName(), ex.toString());
@@ -158,27 +156,30 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
     
     private Socket socket;
     private PrintWriter output;
+    private Parameters parameters;  
+    //this variable stores the camera preview size  
+    private Size previewSize;  
+    //this array stores the pixels as hexadecimal pairs  
+    private int[] pixels;  
     
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
     	openCamera();
     	
-    	try {
-    		socket = new Socket("172.26.24.10", 7777);
+    	parameters = camera.getParameters();  
+    	previewSize = parameters.getPreviewSize();  
+    	pixels = new int[previewSize.width * previewSize.height]; 
+    	
+    	/*try {
+    		socket = new Socket("172.26.24.10", 7778);
     	    output = new PrintWriter(socket.getOutputStream(), true);
-    	    //output.println("Hello Android!");
-    	    //BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
-    	    //read line(s)
-    	    //String st = input.readLine();
-    	    //Log.i("FROM_SERVER", st);
-    	    //Close connection
     	} catch (UnknownHostException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
     	} catch (IOException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
-    	}
+    	}*/
 
     }
     
@@ -186,9 +187,12 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
     private void openCamera() {
 	   	 try { 	
 			 camera = Camera.open();
+			 camera.setPreviewDisplay(surfaceHolder);  
 			 camera.setPreviewCallback(this);
 		     recorder.open();
 		 } catch(Exception e) {
+			 camera.release();  
+			 camera = null;  
 			 Log.e("BroadcastView", e.toString());
 	     }
     }
@@ -199,6 +203,7 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
     	camera.stopPreview();
     	_previewIsRunning = false;
     	camera.release();
+    	camera = null;
     	
 	    try {
 			socket.close();
@@ -207,7 +212,7 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
 		}
     }
 
-    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
+    /*private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
        final double ASPECT_TOLERANCE = 0.05;
        double targetRatio = (double) w / h;
        if (sizes == null) return null;
@@ -238,7 +243,7 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
            }
        }
        return optimalSize;
-   }
+   }*/
 
    @Override
    public void onClick(View v) {
@@ -269,8 +274,8 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
 	                
 	                recorder.start(FILE_NAME);
 	                
-	                Thread cThread = new Thread(new UDPClient());
-	                cThread.start();
+	                //Thread cThread = new Thread(new UDPClient());
+	                //cThread.start();
 	                btnStart.setText(this.getResources().getString(R.string.stop));
 	                
             	} catch (Exception e) {
@@ -305,21 +310,36 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
     }*/
 
     @Override
-    public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
-        // here we can process the image, displayed in preview
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        
     	
-    	int width = paramCamera.getParameters().getPictureSize().width;
-    	int height = paramCamera.getParameters().getPictureSize().height;
-    	output.println(paramArrayOfByte);
-    	/*int[] argb8888 =  new int[width*height];
-    	decodeYUV(argb8888, paramArrayOfByte, width, height);
-    	Bitmap bitmap = Bitmap.createBitmap(argb8888, width, height, Config.ARGB_8888);*/
+    	
+    	// here we can process the image, displayed in preview
+    	int width = 480;//paramCamera.getParameters().getPictureSize().width;
+    	int height = 720;//paramCamera.getParameters().getPictureSize().height;
+    	//output.println(paramArrayOfByte);
+    	try {
+    		//int[] argb8888 =  new int[height*width];
+	    	//decodeYUV420SP(argb8888, paramArrayOfByte, width, height);
+	    	
+	    	decodeYUV420SP(pixels, data, previewSize.width,  previewSize.height);  
+	    	        
+	    	Bitmap bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
+	    	Utils.getDefaultCacheDir(this);
+	    	Log.i("Temp path:", Utils.getDefaultCacheDir(this).getAbsolutePath());
+			FileOutputStream os = new FileOutputStream(String.format(Utils.getDefaultCacheDir(this).getAbsolutePath() + "/%d.jpg", System.currentTimeMillis()));
+			bitmap.compress(CompressFormat.JPEG, 256, os);
+		} catch(Exception e) {
+			Log.e(this.getClass().getName(), e.getMessage());
+			e.printStackTrace();
+		}
+    	
     }
     
     
 	 // decode Y, U, and V values on the YUV 420 buffer described as YCbCr_422_SP by Android 
 	 // David Manpearl 081201 
-	 public void decodeYUV(int[] out, byte[] fg, int width, int height)
+	 /*public void decodeYUV(int[] out, byte[] fg, int width, int height)
 	         throws NullPointerException, IllegalArgumentException {
 	     int sz = width * height;
 	     if (out == null)
@@ -374,9 +394,9 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
 	         }
 	     }
 	
-	 }
+	 }*/
 	 
-	 static public void decodeYUV420SP(int[] rgb, byte[] yuv420sp, int width, int height) {
+	 private void decodeYUV420SP(int[] rgb, byte[] yuv420sp, int width, int height) {
 		    final int frameSize = width * height;
 
 		    for (int j = 0, yp = 0; j < height; j++) {
@@ -402,7 +422,8 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
 		    }
 		}
 
-    class UDPClient implements Runnable {
+
+    /*class UDPClient implements Runnable {
         @Override
         public void run() {
             try {
@@ -437,6 +458,6 @@ public class BroadcastView extends Activity implements SurfaceHolder.Callback,
                 Log.e("UDP", "C: Error", e);
             }
         }
-    }
+    }*/
     
 }
