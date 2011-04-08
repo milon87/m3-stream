@@ -3,8 +3,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.Runnable;
 import java.lang.Thread;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +25,11 @@ import com.xuggle.xuggler.IVideoResampler;
 import com.xuggle.xuggler.IPixelFormat.Type;
 
 
-public class VMuktiServer {
+public class VMuktiServer1 {
     private ServerSocket server;
     private int port = 7778;
  
-    public VMuktiServer() {
+    public VMuktiServer1() {
         try {
             server = new ServerSocket(port);
         } catch (IOException e) {
@@ -34,9 +38,26 @@ public class VMuktiServer {
     }
  
     public static void main(String[] args) {
-        VMuktiServer example = new VMuktiServer();
-        example.handleConnection();
-    }
+    	try { 
+	         DatagramSocket serverSocket = new DatagramSocket(7778); 
+	         byte[] receiveData = new byte[1024]; 
+	         while(true) { 
+	             receiveData = new byte[1024]; 
+	             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length); 
+	             System.out.println ("Waiting for datagram packet");
+	             serverSocket.receive(receivePacket); 
+	             String sentence = new String(receivePacket.getData()); 
+	             InetAddress IPAddress = receivePacket.getAddress(); 
+	             int port = receivePacket.getPort(); 
+	             System.out.println ("From: " + IPAddress + ":" + port);
+	             System.out.println ("Message: " + sentence);
+	         } 
+        } catch (Exception ex) {
+           System.out.println("UDP Port 9876 is occupied.");
+           System.exit(1);
+        }
+
+    } 
  
     public void handleConnection() {
         System.out.println("Waiting for client message...");
@@ -48,7 +69,7 @@ public class VMuktiServer {
         while(true) {
             try {
                 Socket client = server.accept();
-               	new ConnectionHandler(client);
+               	new ConnectionHandler1(client);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,7 +77,7 @@ public class VMuktiServer {
     }
 }
  
-class ConnectionHandler implements Runnable {
+class ConnectionHandler1 implements Runnable {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
     private Socket client;
     private InputStream is;
@@ -107,7 +128,7 @@ class ConnectionHandler implements Runnable {
 	int retVal = 0;
     
     
-    public ConnectionHandler(Socket client) {
+    public ConnectionHandler1(Socket client) {
         this.client = client;
         
         try {
@@ -250,7 +271,7 @@ class ConnectionHandler implements Runnable {
 			byte[] tmp = new byte[4];
 			in.read(tmp, 0, 4);
 			int size = byteArrayToInt(tmp);
-			if(size > 600000 || size < 0) return null;
+			if(size > 600000) return null;
 			byte[] data = new byte[size];
 			in.read(data);
 			ret = new Frame(0, size, data);

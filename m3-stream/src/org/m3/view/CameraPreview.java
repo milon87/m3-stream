@@ -2,30 +2,17 @@ package org.m3.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PreviewCallback;
-import android.hardware.Camera.Size;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.OutputStream;
 import java.net.Socket;
-
 import org.m3.util.Utils;
 
 
@@ -43,7 +30,6 @@ public class CameraPreview extends Activity {
         mPreview = new Preview(this);
         setContentView(mPreview);
     }
-
 }
 
 class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCallback {  
@@ -53,9 +39,9 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	//This variable is responsible for getting and setting the camera settings  
 	private Parameters parameters;  
 	//this variable stores the camera preview size  
-	private Size previewSize;  
+	//private Size previewSize;  
 	//this array stores the pixels as hexadecimal pairs  
-	private byte[] pixels;  
+	//private byte[] pixels;  
 	 
 	Preview(Context context) {  
 		super(context);  
@@ -78,12 +64,11 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	
 	        ///initialize the variables  
 	        parameters = mCamera.getParameters();  
-	        previewSize = parameters.getPreviewSize();  
-	        pixels = new byte[previewSize.width * previewSize.height];  
+	        //previewSize = parameters.getPreviewSize();  
+	        //pixels = new byte[previewSize.width * previewSize.height];  
 	   
 	        socket = new Socket("172.26.24.10", 7778);
-	        oos = new ObjectOutputStream(socket.getOutputStream());
-    	    //output = new PrintWriter(socket.getOutputStream(), true);
+	        os = socket.getOutputStream();
 	    } catch (Exception e) {  
 	        mCamera.release();  
 	        mCamera = null; 
@@ -116,24 +101,22 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	}  
 	  
 	private Socket socket;
-	private ObjectOutputStream oos;
-	//private PrintWriter output;
+	private OutputStream os;
 	@Override  
-	public void onPreviewFrame(byte[] data, Camera camera) {  
+	public void onPreviewFrame(final byte[] data, Camera camera) {  
 		//transforms NV21 pixel data into RGB pixels  
-		try {
-			//decodeYUV420SP(pixels, data, previewSize.width,  previewSize.height); 
-			SerializedObject so = new SerializedObject();
-			so.setArray(data);
-        	oos.writeObject(so);
-        	oos.flush();
-		} catch (IOException e) {
-			Log.e(this.getClass().getName(), e.toString());
-		}
-        
-        //Log.e("To server", pixels.toString());
-	    //output.println(pixels);
-	    
+	    //decodeYUV420SP(pixels, data, previewSize.width,  previewSize.height); 
+		new Thread() {
+			public void run() {
+				try {
+					byte[] length = intToByteArray(data.length); 
+					os.write(concat(length, data));
+					//os.flush();
+				} catch (IOException e) {
+					Log.e(this.getClass().getName(), e.toString());
+				}
+			}
+		}.start();
 	    /*Bitmap bitmap = Bitmap.createBitmap(pixels, previewSize.width, previewSize.height, Config.ARGB_8888);
 	    //File sdDir = Environment.getExternalStorageDirectory();
 		String fileName = CameraPreview.PATH + "/" + System.currentTimeMillis() + ".jpg";
@@ -149,8 +132,24 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	    Log.i("Pixels", "File: " + fileName + "; The top right pixel has the following RGB (hexadecimal) values:" + Integer.toHexString(pixels[0]));*/  
 	}  
 	   
+	private byte[] intToByteArray(int value) {
+        return new byte[] {
+                (byte)(value >>> 24),
+                (byte)(value >>> 16),
+                (byte)(value >>> 8),
+                (byte)value};
+	}
+	
+	private byte[] concat(byte[] A, byte[] B) {
+		   byte[] C = new byte[A.length + B.length];
+		   System.arraycopy(A, 0, C, 0, A.length);
+		   System.arraycopy(B, 0, C, A.length, B.length);
+		   return C;
+	}
+
+
 	//Method from Ketai project! Not mine! See below...  
-	void decodeYUV420SP(byte[] rgb, byte[] yuv420sp, int width, int height) {  
+	/*void decodeYUV420SP(byte[] rgb, byte[] yuv420sp, int width, int height) {  
 		final int frameSize = width * height;  
 	    for (int j = 0, yp = 0; j < height; j++) {       
 	    	int uvp = frameSize + (j >> 1) * width, u = 0, v = 0;  
@@ -178,21 +177,5 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
 	            rgb[yp] = (byte) (0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b >> 10) & 0xff));  
 	    	}  
 	    }  
-	}
-	
-	class SerializedObject implements Serializable {
-		private static final long serialVersionUID = -2678155706954136109L;
-		private byte[] array = null;
-		
-		public SerializedObject() { }
-
-		public void setArray(byte array[]) {
-			this.array = array;
-		}
-
-		public byte[] getArray() {
-			return array;
-		}
-	}
-
+	}*/
 }
